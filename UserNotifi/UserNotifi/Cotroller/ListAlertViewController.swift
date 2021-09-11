@@ -53,7 +53,7 @@ class ListAlertViewController: UIViewController {
     
 }
 
-extension ListAlertViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ListAlertViewController: UICollectionViewDataSource {
     
     // 섹션별 셀 수
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -109,10 +109,12 @@ extension ListAlertViewController: UICollectionViewDataSource, UICollectionViewD
         }
     }
     
+    // 섹션 수
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
 
+    // 헤더뷰
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HeaderView", for: indexPath) as? HeaderView else { return UICollectionReusableView() }
@@ -129,6 +131,7 @@ extension ListAlertViewController: UICollectionViewDataSource, UICollectionViewD
         
     }
     
+    // 헤더뷰 사이즈
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 0 {
             let width: CGFloat = 0
@@ -145,7 +148,17 @@ extension ListAlertViewController: UICollectionViewDataSource, UICollectionViewD
     
 }
 
+extension ListAlertViewController: UICollectionViewDelegate {
+    // 셀 선택
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let showAlertView = self.storyboard?.instantiateViewController(identifier: "ShowAlertViewController") as? ShowAlertViewController else { return }
+        
+        self.navigationController?.pushViewController(showAlertView, animated: true)
+    }
+}
+
 extension ListAlertViewController: UICollectionViewDelegateFlowLayout {
+    // 컬렉션뷰 셀 사이즈
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if indexPath.section == 0 {

@@ -10,6 +10,7 @@
 		0E1967AD26EB28D50004F7D8 /* ListAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1967AC26EB28D50004F7D8 /* ListAlertViewController.swift */; };
 		0E1967AF26EB29010004F7D8 /* ShowAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1967AE26EB29010004F7D8 /* ShowAlertViewController.swift */; };
 		0E1967B226EB37CA0004F7D8 /* CellList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1967B126EB37CA0004F7D8 /* CellList.swift */; };
+		0E1FC13926EC999B00A48358 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1FC13826EC999B00A48358 /* Alert.swift */; };
 		0E918AD326E323C3006FD827 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E918AD226E323C3006FD827 /* AppDelegate.swift */; };
 		0E918AD526E323C3006FD827 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E918AD426E323C3006FD827 /* SceneDelegate.swift */; };
 		0E918ADA26E323C3006FD827 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E918AD826E323C3006FD827 /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 		0E1967AC26EB28D50004F7D8 /* ListAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAlertViewController.swift; sourceTree = "<group>"; };
 		0E1967AE26EB29010004F7D8 /* ShowAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlertViewController.swift; sourceTree = "<group>"; };
 		0E1967B126EB37CA0004F7D8 /* CellList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellList.swift; sourceTree = "<group>"; };
+		0E1FC13826EC999B00A48358 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		0E918ACF26E323C3006FD827 /* UserNotifi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserNotifi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E918AD226E323C3006FD827 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E918AD426E323C3006FD827 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				0E1967B126EB37CA0004F7D8 /* CellList.swift */,
+				0E1FC13826EC999B00A48358 /* Alert.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 				0E918AD526E323C3006FD827 /* SceneDelegate.swift in Sources */,
 				0E918ADD26E323C3006FD827 /* UserNotifi.xcdatamodeld in Sources */,
 				0E1967AD26EB28D50004F7D8 /* ListAlertViewController.swift in Sources */,
+				0E1FC13926EC999B00A48358 /* Alert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
