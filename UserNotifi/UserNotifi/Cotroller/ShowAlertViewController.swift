@@ -15,7 +15,7 @@ class ShowAlertViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "미리알림"
-        alerts.append(Alert(category: "미리알림", date: Date(), repeatNoti: false, repeatCycle: Date(), dateFormatter: "2021년 9월 11일", timeFormatter: "09:00", meridiemFormatter: "오전", title: "미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림미리알림", memo: ""))
+        alerts.append(Alert(category: "미리알림", date: Date(), repeatNoti: false, repeatCycle: Date(), dateFormatter: "2021년 9월 11일", timeFormatter: "09:00", meridiemFormatter: "오전", title: "미리알림", memo: "메모"))
         tableView.estimatedRowHeight = 75
         tableView.rowHeight = UITableView.automaticDimension
     }
@@ -39,13 +39,18 @@ extension ShowAlertViewController: UITableViewDataSource {
         
     }
     
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 75
-//    }
-    
 }
 
 extension ShowAlertViewController: UITableViewDelegate {
+    
+    // 메모보기
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let memoVC = self.storyboard?.instantiateViewController(identifier: "MemoViewController") as? MemoViewController else { return }
+        memoVC.memo = alerts[indexPath.row].memo
+        memoVC.naviTitle = alerts[indexPath.row].title
+        
+        self.present(memoVC, animated: true, completion: nil)
+    }
     
 }
 
