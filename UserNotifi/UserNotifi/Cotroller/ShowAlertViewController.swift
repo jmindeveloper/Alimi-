@@ -20,6 +20,12 @@ class ShowAlertViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
     }
     
+    @IBAction func addAlertButton(_ sender: Any) {
+        guard let addAlertVC = self.storyboard?.instantiateViewController(identifier: "AddAlertViewController") as? AddAlertViewController else { return }
+        
+        self.present(addAlertVC, animated: true, completion: nil)
+        
+    }
     
 }
 
@@ -33,7 +39,7 @@ extension ShowAlertViewController: UITableViewDataSource {
         
         cell.titleLabel.text = alerts[indexPath.row].title
         cell.dateLabel.text = alerts[indexPath.row].dateFormatter
-        cell.timeLabel.text = alerts[indexPath.row].timeFormatter
+        cell.timeLabel.text = "\(alerts[indexPath.row].meridiemFormatter) \(alerts[indexPath.row].timeFormatter)"
 
         return cell
         

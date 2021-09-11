@@ -307,12 +307,15 @@
                                         <state key="selected">
                                             <color key="titleColor" name="AccentColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="addAlertButton:" destination="7PD-LD-BEh" eventType="touchUpInside" id="PM0-WL-i4j"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="GbV-b7-sJ2" firstAttribute="top" secondItem="Kgx-It-Gcn" secondAttribute="top" constant="16" id="BXI-Lx-m0x"/>
-                                    <constraint firstAttribute="bottom" secondItem="GbV-b7-sJ2" secondAttribute="bottom" constant="46" id="a9G-oB-1MP"/>
+                                    <constraint firstAttribute="height" constant="84" id="RjY-Pw-Z5a"/>
                                     <constraint firstItem="GbV-b7-sJ2" firstAttribute="leading" secondItem="Kgx-It-Gcn" secondAttribute="leading" constant="20" id="nfe-a5-9Me"/>
                                 </constraints>
                             </view>
@@ -321,10 +324,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="gq3-ht-HIf" firstAttribute="trailing" secondItem="rk8-uH-JyG" secondAttribute="trailing" id="Lpd-tC-Irb"/>
+                            <constraint firstItem="Kgx-It-Gcn" firstAttribute="top" secondItem="rk8-uH-JyG" secondAttribute="bottom" id="TfI-jJ-1AT"/>
                             <constraint firstAttribute="bottom" secondItem="Kgx-It-Gcn" secondAttribute="bottom" id="Tki-Yd-i8z"/>
                             <constraint firstItem="gq3-ht-HIf" firstAttribute="trailing" secondItem="Kgx-It-Gcn" secondAttribute="trailing" id="bSR-Em-Bbm"/>
                             <constraint firstItem="rk8-uH-JyG" firstAttribute="top" secondItem="gq3-ht-HIf" secondAttribute="top" id="hMO-hS-TM5"/>
-                            <constraint firstItem="gq3-ht-HIf" firstAttribute="bottom" secondItem="rk8-uH-JyG" secondAttribute="bottom" constant="50" id="k0p-SW-QAB"/>
                             <constraint firstItem="Kgx-It-Gcn" firstAttribute="top" secondItem="rk8-uH-JyG" secondAttribute="bottom" id="lMa-17-ZqP"/>
                             <constraint firstItem="Kgx-It-Gcn" firstAttribute="leading" secondItem="gq3-ht-HIf" secondAttribute="leading" id="rDc-PO-wUT"/>
                             <constraint firstItem="rk8-uH-JyG" firstAttribute="leading" secondItem="gq3-ht-HIf" secondAttribute="leading" id="tk1-Ni-Bnd"/>
@@ -395,14 +398,13 @@
         <!--Add Alert View Controller-->
         <scene sceneID="v16-xi-bvC">
             <objects>
-                <viewController id="4Ej-Fb-Uxd" customClass="AddAlertViewController" customModule="UserNotifi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddAlertViewController" id="4Ej-Fb-Uxd" customClass="AddAlertViewController" customModule="UserNotifi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LT7-rD-DtW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9RP-dH-AOe">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9RP-dH-AOe">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <items>
                                     <navigationItem title="알림추가" id="KK2-8Z-TSY">
                                         <barButtonItem key="leftBarButtonItem" title="취소" id="3dp-o4-3vB"/>
@@ -410,15 +412,31 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v51-Zr-Hml">
+                                <rect key="frame" x="184" y="198" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="button:" destination="4Ej-Fb-Uxd" eventType="touchUpInside" id="f3T-v6-uNm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="SCg-4k-QOc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="9RP-dH-AOe" firstAttribute="leading" secondItem="SCg-4k-QOc" secondAttribute="leading" id="I39-Vr-osy"/>
+                            <constraint firstItem="9RP-dH-AOe" firstAttribute="trailing" secondItem="SCg-4k-QOc" secondAttribute="trailing" id="Vfe-pJ-kcX"/>
+                            <constraint firstItem="9RP-dH-AOe" firstAttribute="top" secondItem="SCg-4k-QOc" secondAttribute="top" id="gDo-yi-9Y3"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="B2M-eY-jMf"/>
+                    <connections>
+                        <outlet property="btn" destination="v51-Zr-Hml" id="tpE-lM-SL5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0B8-11-CyU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3780" y="63"/>
+            <point key="canvasLocation" x="3779.7101449275365" y="62.946428571428569"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="32K-lb-Ieg">
