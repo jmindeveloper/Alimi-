@@ -43,10 +43,12 @@ extension ShowAlertViewController: UITableViewDataSource {
         
         cell.titleLabel.text = ShowAlertViewController.alerts[indexPath.row].title
         cell.timeLabel.text = "\(ShowAlertViewController.alerts[indexPath.row].meridiemFormatter) \(ShowAlertViewController.alerts[indexPath.row].timeFormatter)"
+        cell.dateLabel.text = ShowAlertViewController.alerts[indexPath.row].dateFormatter
         if ShowAlertViewController.alerts[indexPath.row].repeatNoti == true {
-            cell.dateLabel.text = "반복함"
+            cell.repeatLabel.isHidden = false
+            cell.repeatLabel.text = ShowAlertViewController.alerts[indexPath.row].repeatCycleFormatter
         } else {
-            cell.dateLabel.text = ShowAlertViewController.alerts[indexPath.row].dateFormatter
+            cell.repeatLabel.isHidden = true
         }
 
         return cell
@@ -73,6 +75,7 @@ class Cell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var onOffSwitch: UISwitch!
+    @IBOutlet weak var repeatLabel: UILabel!
     
 }
 

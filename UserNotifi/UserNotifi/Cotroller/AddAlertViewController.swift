@@ -118,6 +118,28 @@ class AddAlertViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func repeatBtn(_ sender: Any) {
+        
+        guard let repeatVC = self.storyboard?.instantiateViewController(identifier: "RepeatViewController") as? RepeatViewController else { return }
+        
+        repeatVC.sendRepeatCycleDataDelegate = { data in
+            
+            if data == "안함" {
+                self.repeatLabel.text = "안함"
+            } else {
+                self.repeatLabel.text = "\(data) 반복됨"
+            }
+            
+        }
+        
+        let bottomSheet = MDCBottomSheetController(contentViewController: repeatVC)
+        let screenBounds = UIScreen.main.bounds
+        bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = screenBounds.width + 60
+        
+        self.present(bottomSheet, animated: true, completion: nil)
+        
+    }
+    
     @IBAction func saveBtn(_ sender: Any) {
         
         for _ in 0...0 {
@@ -125,13 +147,18 @@ class AddAlertViewController: UIViewController {
                 self.present(showAlert(message: "날짜를 선택해주세요"), animated: true, completion: nil)
                 break
             }
-            if textField.text == nil {
+            if textField.text == "" {
                 self.present(showAlert(message: "알림을 입력해주세요"), animated: true, completion: nil)
                 break
             }
             
             if let sendAlertDataClosure = sendAlertDataClosure {
-                sendAlertDataClosure(Alert(category: categoryLabel.text!, date: Date(), repeatNoti: false, repeatCycle: Date(), dateFormatter: dateString, timeFormatter: dateString2, meridiemFormatter: dateString3, title: textField.text!, memo: ""))
+                
+                if repeatLabel.text == "없음" {
+                    sendAlertDataClosure(Alert(category: categoryLabel.text!, date: Date(), repeatNoti: false, repeatCycle: Date(), repeatCycleFormatter: "", dateFormatter: dateString, timeFormatter: dateString2, meridiemFormatter: dateString3, title: textField.text!, memo: textView.text))
+                } else {
+                    sendAlertDataClosure(Alert(category: categoryLabel.text!, date: Date(), repeatNoti: true, repeatCycle: Date(), repeatCycleFormatter: repeatLabel.text!, dateFormatter: dateString, timeFormatter: dateString2, meridiemFormatter: dateString3, title: textField.text!, memo: textView.text))
+                }
             }
             
             self.dismiss(animated: true, completion: nil)

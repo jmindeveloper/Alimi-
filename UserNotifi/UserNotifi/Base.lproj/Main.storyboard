@@ -267,9 +267,16 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Db4-tc-UKd">
                                                     <rect key="frame" x="320.5" y="22" width="51" height="31"/>
                                                 </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="매시간마다 반복됨" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rmA-Jh-uI6">
+                                                    <rect key="frame" x="82" y="53.5" width="80" height="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" systemColor="systemGrayColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Qdg-JG-jBa" firstAttribute="top" secondItem="za1-N0-KdP" secondAttribute="topMargin" id="04L-Yc-EKJ"/>
+                                                <constraint firstItem="rmA-Jh-uI6" firstAttribute="leading" secondItem="ghq-X3-JIx" secondAttribute="trailing" constant="8" symbolic="YES" id="3bB-HV-M6E"/>
                                                 <constraint firstItem="Db4-tc-UKd" firstAttribute="leading" secondItem="Qdg-JG-jBa" secondAttribute="trailing" constant="20" id="8lW-tX-Vi1"/>
                                                 <constraint firstItem="ghq-X3-JIx" firstAttribute="top" secondItem="2Qn-74-u2a" secondAttribute="bottom" constant="2" id="DzK-pf-ezR"/>
                                                 <constraint firstItem="ghq-X3-JIx" firstAttribute="leading" secondItem="za1-N0-KdP" secondAttribute="leadingMargin" id="Ftb-BN-glI"/>
@@ -277,6 +284,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="ghq-X3-JIx" secondAttribute="bottom" constant="7.5" id="Mta-Pu-jTF"/>
                                                 <constraint firstAttribute="trailing" secondItem="Db4-tc-UKd" secondAttribute="trailing" constant="15" id="eC7-8k-NfR"/>
                                                 <constraint firstItem="Db4-tc-UKd" firstAttribute="centerY" secondItem="za1-N0-KdP" secondAttribute="centerY" id="g3n-uZ-pRs"/>
+                                                <constraint firstAttribute="bottom" secondItem="rmA-Jh-uI6" secondAttribute="bottom" constant="7.5" id="mSH-no-r6c"/>
                                                 <constraint firstItem="Qdg-JG-jBa" firstAttribute="leading" secondItem="za1-N0-KdP" secondAttribute="leadingMargin" id="oXH-ZH-cT6"/>
                                                 <constraint firstItem="2Qn-74-u2a" firstAttribute="top" secondItem="Qdg-JG-jBa" secondAttribute="bottom" constant="1" id="oiE-Gq-sjv"/>
                                             </constraints>
@@ -284,6 +292,7 @@
                                         <connections>
                                             <outlet property="dateLabel" destination="2Qn-74-u2a" id="bfJ-AA-hM4"/>
                                             <outlet property="onOffSwitch" destination="Db4-tc-UKd" id="HqN-39-61V"/>
+                                            <outlet property="repeatLabel" destination="rmA-Jh-uI6" id="jeO-Lm-QpX"/>
                                             <outlet property="timeLabel" destination="ghq-X3-JIx" id="eSc-2L-Vnc"/>
                                             <outlet property="titleLabel" destination="Qdg-JG-jBa" id="sJh-4e-4Si"/>
                                         </connections>
@@ -393,6 +402,43 @@
             </objects>
             <point key="canvasLocation" x="2996" y="792"/>
         </scene>
+        <!--Repeat View Controller-->
+        <scene sceneID="PuW-q5-ILh">
+            <objects>
+                <tableViewController storyboardIdentifier="RepeatViewController" id="ecQ-CL-yd7" customClass="RepeatViewController" customModule="UserNotifi" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Bsg-dT-6T5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="repeatCell" textLabel="uJF-F7-RdC" style="IBUITableViewCellStyleDefault" id="1vr-Dp-aQE">
+                                <rect key="frame" x="20" y="49.5" width="374" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1vr-Dp-aQE" id="kTe-Qd-EbF">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="안함" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uJF-F7-RdC">
+                                            <rect key="frame" x="20" y="0.0" width="334" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="ecQ-CL-yd7" id="eOd-Ut-fYD"/>
+                            <outlet property="delegate" destination="ecQ-CL-yd7" id="pPS-z0-GDj"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v4V-e8-BIQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3780" y="792"/>
+        </scene>
         <!--Add Alert View Controller-->
         <scene sceneID="v16-xi-bvC">
             <objects>
@@ -490,8 +536,11 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="반복"/>
+                                        <connections>
+                                            <action selector="repeatBtn:" destination="4Ej-Fb-Uxd" eventType="touchUpInside" id="mlt-oj-XmP"/>
+                                        </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="없음." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="m1e-zw-g3f">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="없음" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="m1e-zw-g3f">
                                         <rect key="frame" x="84" y="18" width="270" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
@@ -511,14 +560,14 @@
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="제목" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oBP-gJ-D9o">
                                 <rect key="frame" x="20" y="404" width="374" height="34"/>
                                 <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eGT-qp-RL6">
                                 <rect key="frame" x="20" y="472" width="374" height="350"/>
                                 <color key="backgroundColor" systemColor="systemGray5Color"/>
                                 <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>

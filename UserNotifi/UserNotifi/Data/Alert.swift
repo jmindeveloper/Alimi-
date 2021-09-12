@@ -20,8 +20,9 @@ struct Alert: Codable {
     var dateFormatter: String
     var timeFormatter: String
     var meridiemFormatter: String
+    var repeatCycleFormatter: String
     
-    init(category: String, date: Date, repeatNoti: Bool, repeatCycle: Date, dateFormatter: String, timeFormatter: String, meridiemFormatter: String, title: String, memo: String) {
+    init(category: String, date: Date, repeatNoti: Bool, repeatCycle: Date, repeatCycleFormatter: String, dateFormatter: String, timeFormatter: String, meridiemFormatter: String, title: String, memo: String) {
         self.category = category
         self.date = date
         self.repeatNoti = repeatNoti
@@ -29,6 +30,7 @@ struct Alert: Codable {
         self.dateFormatter = dateFormatter
         self.timeFormatter = timeFormatter
         self.meridiemFormatter = meridiemFormatter
+        self.repeatCycleFormatter = repeatCycleFormatter
         self.title = title
         self.memo = memo
     }
