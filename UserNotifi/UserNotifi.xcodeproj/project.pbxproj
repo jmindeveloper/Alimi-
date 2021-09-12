@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		0E1FC13926EC999B00A48358 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1FC13826EC999B00A48358 /* Alert.swift */; };
 		0E1FC13B26ECAFF900A48358 /* AddAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1FC13A26ECAFF900A48358 /* AddAlertViewController.swift */; };
 		0E1FC13D26ECB69000A48358 /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1FC13C26ECB69000A48358 /* MemoViewController.swift */; };
+		0E546E2526ED9E4F00189E7D /* DatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E546E2426ED9E4F00189E7D /* DatePickerViewController.swift */; };
 		0E918AD326E323C3006FD827 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E918AD226E323C3006FD827 /* AppDelegate.swift */; };
 		0E918AD526E323C3006FD827 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E918AD426E323C3006FD827 /* SceneDelegate.swift */; };
 		0E918ADA26E323C3006FD827 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E918AD826E323C3006FD827 /* Main.storyboard */; };
@@ -29,6 +30,7 @@
 		0E1FC13826EC999B00A48358 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		0E1FC13A26ECAFF900A48358 /* AddAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlertViewController.swift; sourceTree = "<group>"; };
 		0E1FC13C26ECB69000A48358 /* MemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewController.swift; sourceTree = "<group>"; };
+		0E546E2426ED9E4F00189E7D /* DatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerViewController.swift; sourceTree = "<group>"; };
 		0E918ACF26E323C3006FD827 /* UserNotifi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserNotifi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E918AD226E323C3006FD827 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E918AD426E323C3006FD827 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,7 +62,6 @@
 				68A9C2A9EC347936D97C37B2 /* Pods-UserNotifi.debug.xcconfig */,
 				D4CC270D5C27A7E896C61BC5 /* Pods-UserNotifi.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -71,6 +72,7 @@
 				0E1967AE26EB29010004F7D8 /* ShowAlertViewController.swift */,
 				0E1FC13A26ECAFF900A48358 /* AddAlertViewController.swift */,
 				0E1FC13C26ECB69000A48358 /* MemoViewController.swift */,
+				0E546E2426ED9E4F00189E7D /* DatePickerViewController.swift */,
 			);
 			path = Cotroller;
 			sourceTree = "<group>";
@@ -246,6 +248,7 @@
 				0E918AD526E323C3006FD827 /* SceneDelegate.swift in Sources */,
 				0E918ADD26E323C3006FD827 /* UserNotifi.xcdatamodeld in Sources */,
 				0E1967AD26EB28D50004F7D8 /* ListAlertViewController.swift in Sources */,
+				0E546E2526ED9E4F00189E7D /* DatePickerViewController.swift in Sources */,
 				0E1FC13926EC999B00A48358 /* Alert.swift in Sources */,
 				0E1FC13B26ECAFF900A48358 /* AddAlertViewController.swift in Sources */,
 				0E1FC13D26ECB69000A48358 /* MemoViewController.swift in Sources */,

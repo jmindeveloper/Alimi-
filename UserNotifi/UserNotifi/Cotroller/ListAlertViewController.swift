@@ -19,7 +19,7 @@ class ListAlertViewController: UIViewController {
         CellList(date: "즐겨찾기", count: 1, image: "star.fill")
     ]
     
-    var categoryList: [Category] = [
+    public var categoryList: [Category] = [
         Category(categoryName: "미리알림", count: 1, image: "list.bullet", imageColor: ".green")
     ]
     
@@ -33,9 +33,10 @@ class ListAlertViewController: UIViewController {
         let alert = UIAlertController(title: "새로운 카테고리", message: nil, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let okAction = UIAlertAction(title: "저장", style: .default) { _ in
-            
             if alert.textFields![0].text != "" {
                 self.categoryList.append(Category(categoryName: alert.textFields![0].text!, count: 0, image: "list.bullet", imageColor: ".green"))
+                
+                print("categoryList --> \(self.categoryList.count)")
                 
                 self.collectionView.reloadData()
             }
@@ -123,7 +124,7 @@ extension ListAlertViewController: UICollectionViewDataSource {
             header.isHidden = true
             return header
         } else if indexPath.section == 1 {
-            header.headerLabel.text = "카테고리"
+            header.headerLabel.text = "그룹"
             return header
         } else {
             return UICollectionReusableView()
@@ -152,6 +153,8 @@ extension ListAlertViewController: UICollectionViewDelegate {
     // 셀 선택
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let showAlertView = self.storyboard?.instantiateViewController(identifier: "ShowAlertViewController") as? ShowAlertViewController else { return }
+        
+        showAlertView.group = categoryList
         
         self.navigationController?.pushViewController(showAlertView, animated: true)
     }
