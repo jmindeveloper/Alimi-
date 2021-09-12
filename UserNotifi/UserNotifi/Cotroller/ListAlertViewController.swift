@@ -19,7 +19,7 @@ class ListAlertViewController: UIViewController {
         CellList(date: "즐겨찾기", count: 1, image: "star.fill")
     ]
     
-    public var categoryList: [Category] = [
+    static var categoryList: [Category] = [
         Category(categoryName: "미리알림", count: 1, image: "list.bullet", imageColor: ".green")
     ]
     
@@ -34,9 +34,7 @@ class ListAlertViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let okAction = UIAlertAction(title: "저장", style: .default) { _ in
             if alert.textFields![0].text != "" {
-                self.categoryList.append(Category(categoryName: alert.textFields![0].text!, count: 0, image: "list.bullet", imageColor: ".green"))
-                
-                print("categoryList --> \(self.categoryList.count)")
+                ListAlertViewController.categoryList.append(Category(categoryName: alert.textFields![0].text!, count: 0, image: "list.bullet", imageColor: ".green"))
                 
                 self.collectionView.reloadData()
             }
@@ -61,7 +59,7 @@ extension ListAlertViewController: UICollectionViewDataSource {
         if section == 0 {
             return lists.count
         } else {
-            return categoryList.count
+            return ListAlertViewController.categoryList.count
         }
     }
     
@@ -92,11 +90,11 @@ extension ListAlertViewController: UICollectionViewDataSource {
             cell2.layer.shadowOffset = CGSize(width: 1, height: 1)
             cell2.layer.shadowColor = UIColor.gray.cgColor
             
-            let img2 = UIImage(systemName: "\(categoryList[indexPath.row].image)")
+            let img2 = UIImage(systemName: "\(ListAlertViewController.categoryList[indexPath.row].image)")
             
             cell2.image.image = img2
-            cell2.label.text = categoryList[indexPath.row].categoryName
-            cell2.count.text = String(categoryList[indexPath.row].count)
+            cell2.label.text = ListAlertViewController.categoryList[indexPath.row].categoryName
+            cell2.count.text = String(ListAlertViewController.categoryList[indexPath.row].count)
         default:
             break
         }
@@ -153,8 +151,6 @@ extension ListAlertViewController: UICollectionViewDelegate {
     // 셀 선택
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let showAlertView = self.storyboard?.instantiateViewController(identifier: "ShowAlertViewController") as? ShowAlertViewController else { return }
-        
-        showAlertView.group = categoryList
         
         self.navigationController?.pushViewController(showAlertView, animated: true)
     }

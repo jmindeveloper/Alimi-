@@ -52,8 +52,8 @@ class AddAlertViewController: UIViewController {
         textView.layer.shadowOffset = CGSize(width: 1, height: 1)
         textView.layer.shadowColor = UIColor.gray.cgColor
         
-        for i in 0..<group.count {
-            let a = group[i].categoryName
+        for i in 0..<ListAlertViewController.categoryList.count {
+            let a = ListAlertViewController.categoryList[i].categoryName
             groupName.append(a)
         }
         
