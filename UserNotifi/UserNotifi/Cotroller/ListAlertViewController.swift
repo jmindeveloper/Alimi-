@@ -7,27 +7,92 @@
 
 import UIKit
 
+
+
+
+
+
 class ListAlertViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
+
+    let currentDateFormatter = DateFormatter()
+    var dateDictionary = [String: [Alert]]()
+    var dateArray = [String]()
+    var categoryDictionary = [String: [Alert]]()
+    var categoryArray = [String]()
     
     
-    let lists: [CellList] = [
-        CellList(date: "오늘", count: 1, image: "calendar"),
-        CellList(date: "예정", count: 1, image: "arrow.clockwise"),
-        CellList(date: "전체", count: 1, image: "folder"),
-        CellList(date: "즐겨찾기", count: 1, image: "star.fill")
+    var lists: [CellList] = [
+    CellList(date: "오늘", count: 0, image: "calendar"),
+    CellList(date: "예정", count: 0, image: "arrow.clockwise"),
+    CellList(date: "전체", count: 0, image: "folder"),
+    CellList(date: "즐겨찾기", count: 0, image: "star.fill")
     ]
     
     static var categoryList: [Category] = [
-        Category(categoryName: "미리알림", count: 1, image: "list.bullet", imageColor: ".green")
+        Category(categoryName: "미리알림", count: 0, image: "list.bullet", imageColor: ".green")
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        currentDateFormatter.dateFormat = "yyyy년 MM월 dd일"
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        dateArray = []
+        dateDictionary = [String: [Alert]]()
+        categoryArray = []
+        categoryDictionary = [String: [Alert]]()
+        
+        var count = 0
+        var count1 = 0
+        
+        for i in ShowAlertViewController.alerts {
+            if i.dateFormatter == currentDateFormatter.string(from: Date()) {
+                count += 1
+            } else {
+                count1 += 1
+            }
+        }
+        
+        for i in ShowAlertViewController.alerts {
+            if dateArray.contains(i.dateFormatter) != true {
+                dateArray.append(i.dateFormatter)
+                dateDictionary[i.dateFormatter] = [i]
+            } else {
+                dateDictionary[i.dateFormatter]?.append(i)
+            }
+        }
+        
+        for i in ShowAlertViewController.alerts {
+            if categoryArray.contains(i.category) != true {
+                categoryArray.append(i.category)
+                categoryDictionary[i.category] = [i]
+            } else {
+                categoryDictionary[i.category]?.append(i)
+            }
+        }
+        
+        for i in 0...ListAlertViewController.categoryList.count - 1 {
+            if let _ = categoryDictionary[ListAlertViewController.categoryList[i].categoryName] {
+                ListAlertViewController.categoryList[i].count = categoryDictionary[ListAlertViewController.categoryList[i].categoryName]?.count ?? 0
+            }
+        }
+
+        print("dateDictionary --> \(dateDictionary)")
+        
+        
+        lists[0].count = count
+        lists[1].count = count1
+        
+        
+        lists[2].count = ShowAlertViewController.alerts.count
+        self.collectionView.reloadData()
+    }
+
     @IBAction func addCategoryBtn(_ sender: Any) {
         
         let alert = UIAlertController(title: "새로운 카테고리", message: nil, preferredStyle: .alert)
@@ -35,21 +100,20 @@ class ListAlertViewController: UIViewController {
         let okAction = UIAlertAction(title: "저장", style: .default) { _ in
             if alert.textFields![0].text != "" {
                 ListAlertViewController.categoryList.append(Category(categoryName: alert.textFields![0].text!, count: 0, image: "list.bullet", imageColor: ".green"))
-                
+
                 self.collectionView.reloadData()
             }
         }
-        
+
         alert.addTextField { textField in
             textField.placeholder = "카테고리 이름"
         }
         alert.addAction(cancelAction)
         alert.addAction(okAction)
-        
+
         self.present(alert, animated: true, completion: nil)
-        
+
     }
-    
 }
 
 extension ListAlertViewController: UICollectionViewDataSource {

@@ -25,7 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0E1967AC26EB28D50004F7D8 /* ListAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAlertViewController.swift; sourceTree = "<group>"; };
+		0E1967AC26EB28D50004F7D8 /* ListAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAlertViewController.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		0E1967AE26EB29010004F7D8 /* ShowAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlertViewController.swift; sourceTree = "<group>"; };
 		0E1967B126EB37CA0004F7D8 /* CellList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellList.swift; sourceTree = "<group>"; };
 		0E1FC13826EC999B00A48358 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };

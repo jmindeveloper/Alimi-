@@ -129,7 +129,7 @@
 		010E030B6C45A9CD15B68683A3C73B0A /* MaterialAvailability.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MaterialAvailability.h; path = components/Availability/src/MaterialAvailability.h; sourceTree = "<group>"; };
 		03533E70501E33799217861772F6A495 /* MDCCutCornerTreatment.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MDCCutCornerTreatment.m; path = components/ShapeLibrary/src/MDCCutCornerTreatment.m; sourceTree = "<group>"; };
 		05C3B166DB5AF380DE03CC6D5D2434C8 /* UIView+MaterialElevationResponding.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+MaterialElevationResponding.h"; path = "components/Elevation/src/UIView+MaterialElevationResponding.h"; sourceTree = "<group>"; };
-		06868DAC04A314BC91EF3B14A716492A /* Pods_UserNotifi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_UserNotifi.framework; path = "Pods-UserNotifi.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		06868DAC04A314BC91EF3B14A716492A /* Pods_UserNotifi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UserNotifi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		075A947AFBD8D9DB9C011F3E9476B8A0 /* MDCShapedView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MDCShapedView.h; path = components/Shapes/src/MDCShapedView.h; sourceTree = "<group>"; };
 		091E9742A6A31476047E2ADAD447D538 /* MDCBottomSheetController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MDCBottomSheetController.m; path = components/BottomSheet/src/MDCBottomSheetController.m; sourceTree = "<group>"; };
 		0D294960CA9089F3A07D7CE213C237C1 /* MaterialShadowElevationsDummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MaterialShadowElevationsDummy.m; path = components/ShadowElevations/src/MaterialShadowElevationsDummy.m; sourceTree = "<group>"; };
@@ -197,11 +197,11 @@
 		9149FA3F18329F09802A940EE73CA514 /* UIColor+MaterialBlending.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIColor+MaterialBlending.h"; path = "components/private/Color/src/UIColor+MaterialBlending.h"; sourceTree = "<group>"; };
 		91ECAD25216E9A77D611E6522152ECD2 /* MDCShapedShadowLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MDCShapedShadowLayer.m; path = components/Shapes/src/MDCShapedShadowLayer.m; sourceTree = "<group>"; };
 		99C35EBDF73118292E203FBCC94615B4 /* MDCBottomSheetControllerDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MDCBottomSheetControllerDelegate.h; path = components/BottomSheet/src/MDCBottomSheetControllerDelegate.h; sourceTree = "<group>"; };
-		9B6725B782188F18CB76A740433F14E4 /* DropDown.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = DropDown.framework; path = DropDown.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9B6725B782188F18CB76A740433F14E4 /* DropDown.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DropDown.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9E1B3ADB876B9ED368B9A6705715D105 /* MDCDraggableView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MDCDraggableView.h; path = components/BottomSheet/src/private/MDCDraggableView.h; sourceTree = "<group>"; };
 		9E4859D92B376429929112329447CCE4 /* MaterialMath.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MaterialMath.h; path = components/private/Math/src/MaterialMath.h; sourceTree = "<group>"; };
-		A34157B3708EDB7D17422B3D92F591D2 /* MaterialComponents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MaterialComponents.framework; path = MaterialComponents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A34157B3708EDB7D17422B3D92F591D2 /* MaterialComponents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MaterialComponents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A49826F2A84DD9988979F026D60EE428 /* MDCCutCornerTreatment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MDCCutCornerTreatment.h; path = components/ShapeLibrary/src/MDCCutCornerTreatment.h; sourceTree = "<group>"; };
 		AAF149ED658EE88FA4D30513F2A34449 /* MDCMath.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MDCMath.h; path = components/private/Math/src/MDCMath.h; sourceTree = "<group>"; };
 		AC116942CDFE5044B0A9C4BFE1237689 /* MDCShapedShadowLayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MDCShapedShadowLayer.h; path = components/Shapes/src/MDCShapedShadowLayer.h; sourceTree = "<group>"; };
@@ -322,7 +322,6 @@
 				A645E6DA3A730AD73331146BE3CE94C6 /* Resources */,
 				4FA7FD30D44AB72FBB3CC41FB9E307E7 /* Support Files */,
 			);
-			name = DropDown;
 			path = DropDown;
 			sourceTree = "<group>";
 		};
@@ -550,7 +549,6 @@
 				AD220BFA4B235701F6B8D122E51462F0 /* Shapes */,
 				51B178307396F2529ED2690DDB06A738 /* Support Files */,
 			);
-			name = MaterialComponents;
 			path = MaterialComponents;
 			sourceTree = "<group>";
 		};
@@ -732,7 +730,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1250;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 9.3";
@@ -912,7 +910,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/MaterialComponents/MaterialComponents-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/MaterialComponents/MaterialComponents-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -946,7 +944,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/DropDown/DropDown-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/DropDown/DropDown-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -980,7 +978,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/DropDown/DropDown-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/DropDown/DropDown-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1016,7 +1014,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/MaterialComponents/MaterialComponents-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/MaterialComponents/MaterialComponents-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

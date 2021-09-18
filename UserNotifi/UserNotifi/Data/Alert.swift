@@ -11,7 +11,7 @@ struct Alert: Codable {
     
     var id: String = UUID().uuidString
     var category: String
-    let date: Date
+    var date: Date
     var repeatNoti: Bool
     var repeatCycle: Date
     var title: String
