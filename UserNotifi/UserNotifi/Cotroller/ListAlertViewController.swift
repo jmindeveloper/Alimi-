@@ -7,20 +7,15 @@
 
 import UIKit
 
-
-
-
-
-
 class ListAlertViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
 
     let currentDateFormatter = DateFormatter()
-    var dateDictionary = [String: [Alert]]()
-    var dateArray = [String]()
-    var categoryDictionary = [String: [Alert]]()
-    var categoryArray = [String]()
+    static var dateDictionary = [String: [Alert]]()
+    static var dateArray = [String]()
+    static var categoryDictionary = ["미리알림": [Alert]()]
+    static var categoryArray = ["미리알림"]
     
     
     var lists: [CellList] = [
@@ -41,55 +36,29 @@ class ListAlertViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
-        dateArray = []
-        dateDictionary = [String: [Alert]]()
-        categoryArray = []
-        categoryDictionary = [String: [Alert]]()
-        
+    
         var count = 0
         var count1 = 0
-        
-        for i in ShowAlertViewController.alerts {
+
+        for i in Alert.alerts {
             if i.dateFormatter == currentDateFormatter.string(from: Date()) {
                 count += 1
             } else {
                 count1 += 1
             }
         }
-        
-        for i in ShowAlertViewController.alerts {
-            if dateArray.contains(i.dateFormatter) != true {
-                dateArray.append(i.dateFormatter)
-                dateDictionary[i.dateFormatter] = [i]
-            } else {
-                dateDictionary[i.dateFormatter]?.append(i)
-            }
-        }
-        
-        for i in ShowAlertViewController.alerts {
-            if categoryArray.contains(i.category) != true {
-                categoryArray.append(i.category)
-                categoryDictionary[i.category] = [i]
-            } else {
-                categoryDictionary[i.category]?.append(i)
-            }
-        }
-        
+
         for i in 0...ListAlertViewController.categoryList.count - 1 {
-            if let _ = categoryDictionary[ListAlertViewController.categoryList[i].categoryName] {
-                ListAlertViewController.categoryList[i].count = categoryDictionary[ListAlertViewController.categoryList[i].categoryName]?.count ?? 0
+            if let _ = ListAlertViewController.categoryDictionary[ListAlertViewController.categoryList[i].categoryName] {
+                ListAlertViewController.categoryList[i].count = ListAlertViewController.categoryDictionary[ListAlertViewController.categoryList[i].categoryName]?.count ?? 0
             }
         }
 
-        print("dateDictionary --> \(dateDictionary)")
-        
-        
         lists[0].count = count
         lists[1].count = count1
         
         
-        lists[2].count = ShowAlertViewController.alerts.count
+        lists[2].count = Alert.alerts.count
         self.collectionView.reloadData()
     }
 
@@ -100,6 +69,8 @@ class ListAlertViewController: UIViewController {
         let okAction = UIAlertAction(title: "저장", style: .default) { _ in
             if alert.textFields![0].text != "" {
                 ListAlertViewController.categoryList.append(Category(categoryName: alert.textFields![0].text!, count: 0, image: "list.bullet", imageColor: ".green"))
+                ListAlertViewController.categoryArray.append(alert.textFields![0].text!)
+                ListAlertViewController.categoryDictionary[alert.textFields![0].text!] = []
 
                 self.collectionView.reloadData()
             }
@@ -215,6 +186,17 @@ extension ListAlertViewController: UICollectionViewDelegate {
     // 셀 선택
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let showAlertView = self.storyboard?.instantiateViewController(identifier: "ShowAlertViewController") as? ShowAlertViewController else { return }
+        
+        
+        if indexPath.section == 0 {
+            print("section == 0")
+        } else if indexPath.section == 1 {
+            showAlertView.alertList = ListAlertViewController.categoryDictionary[ListAlertViewController.categoryArray[indexPath.row]] ?? []
+            showAlertView.naviTitle = ListAlertViewController.categoryList[indexPath.row].categoryName
+        }
+        
+        
+        
         
         self.navigationController?.pushViewController(showAlertView, animated: true)
     }

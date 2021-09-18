@@ -35,4 +35,5 @@ struct Alert: Codable {
         self.memo = memo
     }
 
+    static var alerts = [Alert]()
 }
