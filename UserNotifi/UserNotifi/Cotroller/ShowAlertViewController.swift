@@ -23,14 +23,10 @@ class ShowAlertViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var alertList = [Alert]()
     var alertDictionary = [String: [Alert]]()
     var naviTitle = ""
     var currentDateFormatter = DateFormatter()
-    var sectionCount = 0
     var objectArray = [Objects]()
-//    var dateArray = [String]()
-//    var dateDictionary = [String: [Alert]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,18 +35,8 @@ class ShowAlertViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         currentDateFormatter.dateFormat = "yyyy년 MM월 dd일"
         
-        if alertList.isEmpty {
-            alertList = alertDictionary[currentDateFormatter.string(from: Date())] ?? []
-        }
-        print("alertDictionary --> \(alertDictionary[currentDateFormatter.string(from: Date())] ?? [])")
-        print("alertList --> \(alertList)")
+        print("alertDictionary --> \(alertDictionary)")
         
-//        for i in alertList {
-//            if dateArray.contains(i.dateFormatter) == false {
-//                dateArray.append(i.dateFormatter)
-//                dateDictionary[i.dateFormatter] = [i]
-//            }
-//        }
         reloadData()
     }
     
@@ -63,6 +49,8 @@ class ShowAlertViewController: UIViewController {
     
     @IBAction func addAlertButton(_ sender: Any) {
         guard let addAlertVC = self.storyboard?.instantiateViewController(identifier: "AddAlertViewController") as? AddAlertViewController else { return }
+        
+        addAlertVC.categoryName = self.naviTitle
         
         addAlertVC.sendAlertDataClosure = { alert in
             Alert.alerts.append(alert)
@@ -81,13 +69,12 @@ class ShowAlertViewController: UIViewController {
                 Alert.categoryDictionary[alert.category]?.append(alert)
             }
             
-            if alert.category == self.naviTitle {
+            if self.naviTitle == alert.category || self.naviTitle == "전체" || self.naviTitle == "예정" || self.naviTitle == "오늘" && alert.dateFormatter == self.currentDateFormatter.string(from: Date()) {
                 if let a: Int = self.objectArray.firstIndex(where: { $0.sectionName == alert.dateFormatter}) {
                     self.objectArray[a].sectionObject.append(alert)
                 } else {
                     self.objectArray.append(Objects(sectionName: alert.dateFormatter, sectionObject: [alert]))
                 }
-                
             }
             self.objectArray = self.objectArray.sorted { $0.sectionName < $1.sectionName }
             self.tableView.reloadData()

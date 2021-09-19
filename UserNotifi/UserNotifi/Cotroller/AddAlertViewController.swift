@@ -18,6 +18,7 @@ class AddAlertViewController: UIViewController {
     var dateString = ""
     var dateString2 = ""
     var dateString3 = ""
+    var categoryName = ""
     
     @IBOutlet weak var groupView: UIView!
     @IBOutlet weak var repeatView: UIView!
@@ -61,6 +62,10 @@ class AddAlertViewController: UIViewController {
         
         // 초기데이타
         dateLabel.text = "날짜를 선택해주세요"
+        categoryLabel.text = categoryName
+        if categoryLabel.text == "전체" || categoryLabel.text == "예정" || categoryLabel.text == "오늘" || categoryLabel.text == "즐겨찾기" {
+            categoryLabel.text = "미리알림"
+        }
         
     }
     

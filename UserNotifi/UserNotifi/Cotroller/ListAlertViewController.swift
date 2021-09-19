@@ -12,6 +12,8 @@ class ListAlertViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
     let currentDateFormatter = DateFormatter()
+    let currentMeridiemFormatter = DateFormatter()
+    let currentTimeFormatter = DateFormatter()
     
     var lists: [CellList] = [
     CellList(date: "오늘", count: 0, image: "calendar"),
@@ -26,19 +28,29 @@ class ListAlertViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentDateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-    
+        print("viewWillAppear")
+        currentDateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        currentMeridiemFormatter.dateFormat = "a"
+        currentMeridiemFormatter.locale = Locale(identifier: "ko")
+        currentTimeFormatter.dateFormat = "HH:mm"
+        
         var count = 0
         var count1 = 0
 
         for i in Alert.alerts {
             if i.dateFormatter == currentDateFormatter.string(from: Date()) {
                 count += 1
-            } else {
+                if i.meridiemFormatter > currentMeridiemFormatter.string(from: Date()) {
+                    count1 += 1
+                } else if i.meridiemFormatter == currentMeridiemFormatter.string(from: Date()) && i.timeFormatter > currentTimeFormatter.string(from: Date()) {
+                    count1 += 1
+                }
+            } else if i.dateFormatter > currentDateFormatter.string(from: Date()) {
                 count1 += 1
             }
         }
@@ -174,7 +186,6 @@ extension ListAlertViewController: UICollectionViewDataSource {
             return CGSize(width: 0, height: 0)
         }
     }
-    
 }
 
 extension ListAlertViewController: UICollectionViewDelegate {
@@ -186,15 +197,56 @@ extension ListAlertViewController: UICollectionViewDelegate {
         if indexPath.section == 0 {
             
             if indexPath.row == 0 {
-                showAlertView.alertDictionary = [currentDateFormatter.string(from: Date()): Alert.dateDictionary[currentDateFormatter.string(from: Date())] ?? []] 
-                showAlertView.sectionCount = 1
+                showAlertView.alertDictionary = [currentDateFormatter.string(from: Date()): Alert.dateDictionary[currentDateFormatter.string(from: Date())] ?? []]
+                showAlertView.naviTitle = "오늘"
             } else if indexPath.row == 1 {
+                
+                var scheduleDateAlertDictionary = [String: [Alert]]()
+                var scheduleDateAlertArray = [String]()
+                print("alerts --> \(Alert.dateArray)")
+                // scheduleDateAlertDictionary
+                for i in Alert.dateArray {
+                    if currentDateFormatter.string(from: Date()) < i {
+                        print("이후날짜 추가됨")
+                        if scheduleDateAlertArray.contains(i) == false {
+                            scheduleDateAlertArray.append(i)
+                            scheduleDateAlertDictionary[i] = Alert.dateDictionary[i]
+                        }
+                    } else if currentDateFormatter.string(from: Date()) == i {
+                        print("날짜같음")
+                        for j in Alert.dateDictionary[i]! {
+                            print("\(currentMeridiemFormatter.string(from: Date()))  ///  \(j.meridiemFormatter)")
+                            if currentMeridiemFormatter.string(from: Date()) < j.meridiemFormatter {
+                                print("오후")
+                                if scheduleDateAlertArray.contains(i) == false {
+                                    scheduleDateAlertArray.append(i)
+                                    scheduleDateAlertDictionary[i] = [j]
+                                } else {
+                                    scheduleDateAlertDictionary[i]?.append(j)
+                                }
+                            } else if currentTimeFormatter.string(from: Date()) < j.timeFormatter && currentMeridiemFormatter.string(from: Date()) == j.meridiemFormatter {
+                                print("시간")
+                                if scheduleDateAlertArray.contains(i) == false {
+                                    scheduleDateAlertArray.append(i)
+                                    scheduleDateAlertDictionary[i] = [j]
+                                } else {
+                                    scheduleDateAlertDictionary[i]?.append(j)
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                print("scheduleDateAlertArray --> \(scheduleDateAlertArray)")
+                print("schduleDateAlertDictionary --> \(scheduleDateAlertDictionary)")
+                showAlertView.alertDictionary = scheduleDateAlertDictionary
+                showAlertView.naviTitle = "예정"
                 
             } else if indexPath.row == 2 {
                 showAlertView.alertDictionary = Alert.dateDictionary
-                showAlertView.sectionCount = Alert.dateDictionary.count
+                showAlertView.naviTitle = "전체"
             } else if indexPath.row == 3 {
-                
+                showAlertView.naviTitle = "즐겨찾기"
             }
         } else if indexPath.section == 1 {
             
@@ -257,3 +309,5 @@ class HeaderView: UICollectionReusableView {
     
     @IBOutlet weak var headerLabel: UILabel!
 }
+
+
