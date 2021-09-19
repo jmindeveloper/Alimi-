@@ -12,11 +12,6 @@ class ListAlertViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
     let currentDateFormatter = DateFormatter()
-    static var dateDictionary = [String: [Alert]]()
-    static var dateArray = [String]()
-    static var categoryDictionary = ["미리알림": [Alert]()]
-    static var categoryArray = ["미리알림"]
-    
     
     var lists: [CellList] = [
     CellList(date: "오늘", count: 0, image: "calendar"),
@@ -49,8 +44,8 @@ class ListAlertViewController: UIViewController {
         }
 
         for i in 0...ListAlertViewController.categoryList.count - 1 {
-            if let _ = ListAlertViewController.categoryDictionary[ListAlertViewController.categoryList[i].categoryName] {
-                ListAlertViewController.categoryList[i].count = ListAlertViewController.categoryDictionary[ListAlertViewController.categoryList[i].categoryName]?.count ?? 0
+            if let _ = Alert.categoryDictionary[ListAlertViewController.categoryList[i].categoryName] {
+                ListAlertViewController.categoryList[i].count = Alert.categoryDictionary[ListAlertViewController.categoryList[i].categoryName]?.count ?? 0
             }
         }
 
@@ -69,8 +64,8 @@ class ListAlertViewController: UIViewController {
         let okAction = UIAlertAction(title: "저장", style: .default) { _ in
             if alert.textFields![0].text != "" {
                 ListAlertViewController.categoryList.append(Category(categoryName: alert.textFields![0].text!, count: 0, image: "list.bullet", imageColor: ".green"))
-                ListAlertViewController.categoryArray.append(alert.textFields![0].text!)
-                ListAlertViewController.categoryDictionary[alert.textFields![0].text!] = []
+                Alert.categoryArray.append(alert.textFields![0].text!)
+                Alert.categoryDictionary[alert.textFields![0].text!] = []
 
                 self.collectionView.reloadData()
             }
@@ -189,15 +184,34 @@ extension ListAlertViewController: UICollectionViewDelegate {
         
         
         if indexPath.section == 0 {
-            print("section == 0")
+            
+            if indexPath.row == 0 {
+                showAlertView.alertDictionary = [currentDateFormatter.string(from: Date()): Alert.dateDictionary[currentDateFormatter.string(from: Date())] ?? []] 
+                showAlertView.sectionCount = 1
+            } else if indexPath.row == 1 {
+                
+            } else if indexPath.row == 2 {
+                showAlertView.alertDictionary = Alert.dateDictionary
+                showAlertView.sectionCount = Alert.dateDictionary.count
+            } else if indexPath.row == 3 {
+                
+            }
         } else if indexPath.section == 1 {
-            showAlertView.alertList = ListAlertViewController.categoryDictionary[ListAlertViewController.categoryArray[indexPath.row]] ?? []
+            
+            var categoryDateDictionary = [String: [Alert]]()
+            var categoryDateArray = [String]()
+            
+            for i in Alert.categoryDictionary[Alert.categoryArray[indexPath.row]]! {
+                if categoryDateArray.contains(i.dateFormatter) == false {
+                    categoryDateArray.append(i.dateFormatter)
+                    categoryDateDictionary[i.dateFormatter] = [i]
+                } else {
+                    categoryDateDictionary[i.dateFormatter]?.append(i)
+                }
+            }
+            showAlertView.alertDictionary = categoryDateDictionary
             showAlertView.naviTitle = ListAlertViewController.categoryList[indexPath.row].categoryName
         }
-        
-        
-        
-        
         self.navigationController?.pushViewController(showAlertView, animated: true)
     }
 }

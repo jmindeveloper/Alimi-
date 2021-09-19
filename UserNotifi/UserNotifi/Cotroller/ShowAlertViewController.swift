@@ -9,16 +9,56 @@ import UIKit
 
 class ShowAlertViewController: UIViewController {
     
+    struct Objects {
+        
+        var sectionName: String
+        var sectionObject: [Alert]
+        
+        init(sectionName: String, sectionObject: [Alert]) {
+            self.sectionName = sectionName
+            self.sectionObject = sectionObject
+        }
+        
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     
     var alertList = [Alert]()
+    var alertDictionary = [String: [Alert]]()
     var naviTitle = ""
+    var currentDateFormatter = DateFormatter()
+    var sectionCount = 0
+    var objectArray = [Objects]()
+//    var dateArray = [String]()
+//    var dateDictionary = [String: [Alert]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = naviTitle
         tableView.estimatedRowHeight = 75
         tableView.rowHeight = UITableView.automaticDimension
+        currentDateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        
+        if alertList.isEmpty {
+            alertList = alertDictionary[currentDateFormatter.string(from: Date())] ?? []
+        }
+        print("alertDictionary --> \(alertDictionary[currentDateFormatter.string(from: Date())] ?? [])")
+        print("alertList --> \(alertList)")
+        
+//        for i in alertList {
+//            if dateArray.contains(i.dateFormatter) == false {
+//                dateArray.append(i.dateFormatter)
+//                dateDictionary[i.dateFormatter] = [i]
+//            }
+//        }
+        reloadData()
+    }
+    
+    func reloadData() {
+        for (key, value) in alertDictionary {
+            objectArray.append(Objects(sectionName: key, sectionObject: value))
+        }
+        objectArray = objectArray.sorted { $0.sectionName < $1.sectionName }
     }
     
     @IBAction func addAlertButton(_ sender: Any) {
@@ -27,18 +67,18 @@ class ShowAlertViewController: UIViewController {
         addAlertVC.sendAlertDataClosure = { alert in
             Alert.alerts.append(alert)
             
-            if ListAlertViewController.dateArray.contains(alert.dateFormatter) != true {
-                ListAlertViewController.dateArray.append(alert.dateFormatter)
-                ListAlertViewController.dateDictionary[alert.dateFormatter] = [alert]
+            if Alert.dateArray.contains(alert.dateFormatter) != true {
+                Alert.dateArray.append(alert.dateFormatter)
+                Alert.dateDictionary[alert.dateFormatter] = [alert]
             } else {
-                ListAlertViewController.dateDictionary[alert.dateFormatter]?.append(alert)
+                Alert.dateDictionary[alert.dateFormatter]?.append(alert)
             }
             
-            if ListAlertViewController.categoryArray.contains(alert.category) != true {
-                ListAlertViewController.categoryArray.append(alert.category)
-                ListAlertViewController.categoryDictionary[alert.category] = [alert]
+            if Alert.categoryArray.contains(alert.category) != true {
+                Alert.categoryArray.append(alert.category)
+                Alert.categoryDictionary[alert.category] = [alert]
             } else {
-                ListAlertViewController.categoryDictionary[alert.category]?.append(alert)
+                Alert.categoryDictionary[alert.category]?.append(alert)
             }
             
             self.alertList.append(alert)
@@ -54,25 +94,39 @@ class ShowAlertViewController: UIViewController {
 }
 
 extension ShowAlertViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return alertList.count
+    
+    // 섹션 개수
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return objectArray.count
     }
     
+    // 셀 개수
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return objectArray[section].sectionObject.count
+    }
+    
+    // 셀 데이터
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? Cell else { return UITableViewCell() }
         
-        cell.titleLabel.text = alertList[indexPath.row].title
-        cell.timeLabel.text = "\(alertList[indexPath.row].meridiemFormatter) \(alertList[indexPath.row].timeFormatter)"
-        cell.dateLabel.text = alertList[indexPath.row].dateFormatter
-        if alertList[indexPath.row].repeatNoti == true {
+        let alert = objectArray[indexPath.section].sectionObject[indexPath.row]
+        
+        cell.titleLabel.text = alert.title
+        cell.timeLabel.text = "\(alert.meridiemFormatter) \(alert.timeFormatter)"
+        cell.dateLabel.text = alert.dateFormatter
+        if alert.repeatNoti == true {
             cell.repeatLabel.isHidden = false
-            cell.repeatLabel.text = alertList[indexPath.row].repeatCycleFormatter
+            cell.repeatLabel.text = alert.repeatCycleFormatter
         } else {
             cell.repeatLabel.isHidden = true
         }
 
         return cell
         
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return objectArray[section].sectionName
     }
     
 }
@@ -89,6 +143,7 @@ extension ShowAlertViewController: UITableViewDelegate {
     }
     
 }
+
 
 class Cell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!

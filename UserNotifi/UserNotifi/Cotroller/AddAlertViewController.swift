@@ -154,7 +154,7 @@ class AddAlertViewController: UIViewController {
             
             if let sendAlertDataClosure = sendAlertDataClosure {
                 
-                if repeatLabel.text == "없음" {
+                if repeatLabel.text == "안함" {
                     sendAlertDataClosure(Alert(category: categoryLabel.text!, date: Date(), repeatNoti: false, repeatCycle: Date(), repeatCycleFormatter: "", dateFormatter: dateString, timeFormatter: dateString2, meridiemFormatter: dateString3, title: textField.text!, memo: textView.text))
                 } else {
                     sendAlertDataClosure(Alert(category: categoryLabel.text!, date: Date(), repeatNoti: true, repeatCycle: Date(), repeatCycleFormatter: repeatLabel.text!, dateFormatter: dateString, timeFormatter: dateString2, meridiemFormatter: dateString3, title: textField.text!, memo: textView.text))
