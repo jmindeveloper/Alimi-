@@ -81,11 +81,17 @@ class ShowAlertViewController: UIViewController {
                 Alert.categoryDictionary[alert.category]?.append(alert)
             }
             
-            self.alertList.append(alert)
-            
+            if alert.category == self.naviTitle {
+                if let a: Int = self.objectArray.firstIndex(where: { $0.sectionName == alert.dateFormatter}) {
+                    self.objectArray[a].sectionObject.append(alert)
+                } else {
+                    self.objectArray.append(Objects(sectionName: alert.dateFormatter, sectionObject: [alert]))
+                }
+                
+            }
+            self.objectArray = self.objectArray.sorted { $0.sectionName < $1.sectionName }
             self.tableView.reloadData()
-            
-        }
+            }
         
         self.present(addAlertVC, animated: true, completion: nil)
         
