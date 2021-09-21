@@ -31,7 +31,7 @@ class ShowAlertViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = naviTitle
-        tableView.estimatedRowHeight = 75
+        tableView.estimatedRowHeight = 90
         tableView.rowHeight = UITableView.automaticDimension
         currentDateFormatter.dateFormat = "yyyy년 MM월 dd일"
         
@@ -133,6 +133,49 @@ extension ShowAlertViewController: UITableViewDelegate {
         memoVC.naviTitle = Alert.alerts[indexPath.row].title
         
         self.present(memoVC, animated: true, completion: nil)
+    }
+    
+}
+
+extension ShowAlertViewController {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (ac: UIContextualAction, view: UIView, success: (Bool) -> Void) in
+            print("삭제")
+            success(true)
+        }
+        let flagAction = UIContextualAction(style: .normal, title: "즐겨찾기") { (ac: UIContextualAction, view: UIView, success: (Bool) -> Void) in
+            print("flag")
+            success(true)
+        }
+        
+        deleteAction.image = UIImage(systemName: "xmark.circle.fill")
+        flagAction.backgroundColor = .systemYellow
+        flagAction.image = UIImage(systemName: "star")
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, flagAction])
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let editAction = UIContextualAction(style: .normal, title: "수정") { (ac: UIContextualAction, view: UIView, success: (Bool) -> Void) in
+            print("수정")
+            
+            guard let editAlertVC = self.storyboard?.instantiateViewController(identifier: "EditAlertViewController") as? EditAlertViewController else { return }
+            
+            editAlertVC.alert = self.objectArray[indexPath.section].sectionObject[indexPath.row]
+            print("넘겨준값 --> \(self.objectArray[indexPath.section].sectionObject[indexPath.row])")
+            
+            editAlertVC.sendAlertDataClosure = { alert in
+                print("되돌려받은값 --> \(alert)")
+            }
+            
+            self.present(editAlertVC, animated: true, completion: nil)
+            
+            
+            
+            success(true)
+        }
+        editAction.image = UIImage(systemName: "info.circle")
+        return UISwipeActionsConfiguration(actions: [editAction])
     }
     
 }

@@ -37,7 +37,9 @@ class ListAlertViewController: UIViewController {
         currentDateFormatter.dateFormat = "yyyy년 MM월 dd일"
         currentMeridiemFormatter.dateFormat = "a"
         currentMeridiemFormatter.locale = Locale(identifier: "ko")
-        currentTimeFormatter.dateFormat = "HH:mm"
+        currentTimeFormatter.dateFormat = "hh:mm"
+        
+        print(currentTimeFormatter.string(from: Date()))
         
         var count = 0
         var count1 = 0
@@ -226,6 +228,7 @@ extension ListAlertViewController: UICollectionViewDelegate {
                                 }
                             } else if currentTimeFormatter.string(from: Date()) < j.timeFormatter && currentMeridiemFormatter.string(from: Date()) == j.meridiemFormatter {
                                 print("시간")
+                                print("\(currentTimeFormatter.string(from: Date())) ///  \(j.timeFormatter)")
                                 if scheduleDateAlertArray.contains(i) == false {
                                     scheduleDateAlertArray.append(i)
                                     scheduleDateAlertDictionary[i] = [j]

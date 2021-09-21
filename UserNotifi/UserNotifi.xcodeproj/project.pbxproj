@@ -21,6 +21,7 @@
 		0E918ADD26E323C3006FD827 /* UserNotifi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E918ADB26E323C3006FD827 /* UserNotifi.xcdatamodeld */; };
 		0E918ADF26E323C3006FD827 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E918ADE26E323C3006FD827 /* Assets.xcassets */; };
 		0E918AE226E323C3006FD827 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E918AE026E323C3006FD827 /* LaunchScreen.storyboard */; };
+		0EC334D026F99DAF0048DD58 /* EditAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC334CF26F99DAF0048DD58 /* EditAlertViewController.swift */; };
 		46F40B1FC98487392B7AD377 /* Pods_UserNotifi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9112C80A947E63C8F0EC7ADC /* Pods_UserNotifi.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		0E918ADE26E323C3006FD827 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E918AE126E323C3006FD827 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0E918AE326E323C3006FD827 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0EC334CF26F99DAF0048DD58 /* EditAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAlertViewController.swift; sourceTree = "<group>"; };
 		68A9C2A9EC347936D97C37B2 /* Pods-UserNotifi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UserNotifi.debug.xcconfig"; path = "Target Support Files/Pods-UserNotifi/Pods-UserNotifi.debug.xcconfig"; sourceTree = "<group>"; };
 		9112C80A947E63C8F0EC7ADC /* Pods_UserNotifi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UserNotifi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CC270D5C27A7E896C61BC5 /* Pods-UserNotifi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UserNotifi.release.xcconfig"; path = "Target Support Files/Pods-UserNotifi/Pods-UserNotifi.release.xcconfig"; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				0E1FC13C26ECB69000A48358 /* MemoViewController.swift */,
 				0E546E2426ED9E4F00189E7D /* DatePickerViewController.swift */,
 				0E546E2626EDF47700189E7D /* RepeatViewController.swift */,
+				0EC334CF26F99DAF0048DD58 /* EditAlertViewController.swift */,
 			);
 			path = Cotroller;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				0E918AD326E323C3006FD827 /* AppDelegate.swift in Sources */,
 				0E918AD526E323C3006FD827 /* SceneDelegate.swift in Sources */,
 				0E918ADD26E323C3006FD827 /* UserNotifi.xcdatamodeld in Sources */,
+				0EC334D026F99DAF0048DD58 /* EditAlertViewController.swift in Sources */,
 				0E1967AD26EB28D50004F7D8 /* ListAlertViewController.swift in Sources */,
 				0E546E2526ED9E4F00189E7D /* DatePickerViewController.swift in Sources */,
 				0E1FC13926EC999B00A48358 /* Alert.swift in Sources */,
