@@ -167,11 +167,94 @@ extension ShowAlertViewController {
             editAlertVC.sendAlertDataClosure = { alert in
                 
                 print("되돌려받은값 --> \(alert)")
+                
+                func setDataOfObjectArray() {
+                    for i in 0..<self.objectArray.count {
+                        for j in 0..<self.objectArray[i].sectionObject.count {
+                            if self.objectArray[i].sectionObject[j].id == alert.id {
+                                self.objectArray[i].sectionObject[j] = alert
+                            }
+                        }
+                    }
+                }
+                
+                func deleteDataOfObjectArray() {
+                    for i in 0..<self.objectArray.count {
+                        for j in 0..<self.objectArray[i].sectionObject.count {
+                            if self.objectArray[i].sectionObject[j].id == alert.id {
+                                self.objectArray[i].sectionObject.remove(at: j)
+                            }
+                        }
+                    }
+                }
+                
+                if self.naviTitle == "오늘" {
+                    // 오늘 날짜가 아닐시 remove, 오늘 날짜시 반영 -> reload Data
+                    if self.currentDateFormatter.string(from: Date()) == alert.dateFormatter {
+                        setDataOfObjectArray()
+                    } else {
+                        deleteDataOfObjectArray()
+                    }
+                    self.tableView.reloadData()
+                } else if self.naviTitle == "예정" {
+                    // 반영 -> reload Data
+                    print("예정")
+                    
+                    deleteDataOfObjectArray() // objectArray에 alert이랑 동일한 id를 가진 Alert 삭제
+                    
+                    for i in 0..<self.objectArray.count { // objectArray[].sectionObject == isEmpty일때 해당 objectArray의 index 삭제
+                        if self.objectArray[i].sectionObject.isEmpty {
+                            self.objectArray.remove(at: i)
+                            print("삭제됨")
+                            break
+                        }
+                    }
+                    
+                    var a = true
+                    print(self.objectArray.count)
+                    for i in 0..<self.objectArray.count {
+                        print("반복")
+                        if self.objectArray[i].sectionName == alert.dateFormatter {
+                            self.objectArray[i].sectionObject.append(alert)
+                            print("기존값에 추가됨")
+                            a = true
+                            break
+                        } else {
+                            a = false
+                        }
+                    }
+                    
+                    if a == false || self.objectArray.isEmpty {
+                        self.objectArray.append(Objects(sectionName: alert.dateFormatter, sectionObject: [alert]))
+                        print("새로 추가됨")
+                    }
+                    self.reloadData()
+                    
+                    
+                    
+                    self.tableView.reloadData()
+                } else if self.naviTitle == "전체" {
+                    // 반영 -> reload Data
+                    setDataOfObjectArray()
+                    self.tableView.reloadData()
+                } else if self.naviTitle == "즐겨찾기" {
+                    print("즐겨찾기")
+                } else {
+                    // naviTitle과 다를시 remove, 같을시 반영 -> reload Data
+                    if self.naviTitle == alert.category {
+                        setDataOfObjectArray()
+                    } else {
+                        deleteDataOfObjectArray()
+                    }
+                    self.tableView.reloadData()
+                }
+                
+                
+                
                 var dateBreak = false
                 var categoryBreak = false
                 
                 func deleteDic(dic: [String: [Alert]], arr: [String], key: Dictionary<String, [Alert]>.Keys.Element, alert: Alert, index: Int, editValue: String, ifDate: Bool) -> ([String: [Alert]], [String]) {
-                    print("함수실행")
                     var dictionary = dic
                     var array = arr
 //                    print("\(editValue) dic --> \(dictionary)")
@@ -184,7 +267,6 @@ extension ShowAlertViewController {
                             dictionary[key] = nil
                         }
                     } else {
-                        print("실행")
                         if ((dictionary[key]?.isEmpty) != nil) {
                             dictionary[key] = []
                         }
@@ -196,8 +278,8 @@ extension ShowAlertViewController {
                         dictionary[editValue]?.append(alert)
                     }
                     
-                    print("dictionary --> \(dictionary)")
-                    print("array --> \(array)")
+//                    print("dictionary --> \(dictionary)")
+//                    print("array --> \(array)")
                     
                     return (dictionary, array)
                 }
@@ -208,7 +290,7 @@ extension ShowAlertViewController {
                         break
                     }
                 }
-                print("date //////////////////////")
+//                print("date //////////////////////")
                 for i in Alert.dateDictionary.keys { // i에 dateDictionary의 key값 순서대로 대입
                     for j in 0..<Alert.dateDictionary[i]!.count { // j에 dateDictionary[i] 배열 순서대로 대입
                         if Alert.dateDictionary[i]![j].id  == alert.id { // j번째 index의 id와 alert의 id 가 같으면
@@ -225,9 +307,9 @@ extension ShowAlertViewController {
                         }
                     }
                 }
-                print("dateDic --> \(Alert.dateDictionary)")
-                print("datearr --> \(Alert.dateArray)")
-                print("category  //////////////////////")
+//                print("dateDic --> \(Alert.dateDictionary)")
+//                print("datearr --> \(Alert.dateArray)")
+//                print("category  //////////////////////")
                 for i in Alert.categoryDictionary.keys {
                     for j in 0..<Alert.categoryDictionary[i]!.count {
                         if Alert.categoryDictionary[i]![j].id == alert.id {
@@ -239,9 +321,6 @@ extension ShowAlertViewController {
                             } else {
                                 
                             }
-                            
-                           
-                            
                             categoryBreak = true
                             break
                         }
@@ -250,10 +329,8 @@ extension ShowAlertViewController {
                         }
                     }
                 }
-                print("categoryDic --> \(Alert.categoryDictionary)")
-                print("categoryArr --> \(Alert.categoryArray)")
-
-                // [x]objectArray에 값과 다른값으로 변경시 삭제
+//                print("categoryDic --> \(Alert.categoryDictionary)")
+//                print("categoryArr --> \(Alert.categoryArray)")
             }
             
             self.present(editAlertVC, animated: true, completion: nil)
