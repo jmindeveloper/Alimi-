@@ -19,6 +19,7 @@ class EditAlertViewController: UIViewController {
     var categoryName = ""
     var alert: Alert!
     var sendAlertDataClosure: ((Alert) -> Void)?
+    var changeDate = false
     
     @IBOutlet weak var groupView: UIView!
     @IBOutlet weak var repeatView: UIView!
@@ -110,6 +111,7 @@ class EditAlertViewController: UIViewController {
             self.dateString2 = date2
             self.dateString3 = date3
             self.dateLabel.text = ("\(self.dateString) \(self.dateString3) \(self.dateString2)")
+            self.changeDate = true
         }
                 
         self.present(bottomSheet, animated: true, completion: nil)
@@ -151,9 +153,11 @@ class EditAlertViewController: UIViewController {
             if let sendAlertDataClosure = sendAlertDataClosure {
                 
                 alert.category = self.categoryLabel.text ?? ""
-                alert.dateFormatter = self.dateString
-                alert.timeFormatter = self.dateString2
-                alert.meridiemFormatter = self.dateString3
+                if changeDate == true {
+                    alert.dateFormatter = self.dateString
+                    alert.timeFormatter = self.dateString2
+                    alert.meridiemFormatter = self.dateString3
+                }
                 alert.memo = self.textView.text
                 alert.title = self.textField.text ?? ""
                 if repeatLabel.text == "안함" {

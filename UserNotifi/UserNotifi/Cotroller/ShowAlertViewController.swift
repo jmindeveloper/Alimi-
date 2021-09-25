@@ -165,7 +165,95 @@ extension ShowAlertViewController {
             print("넘겨준값 --> \(self.objectArray[indexPath.section].sectionObject[indexPath.row])")
             
             editAlertVC.sendAlertDataClosure = { alert in
+                
                 print("되돌려받은값 --> \(alert)")
+                var dateBreak = false
+                var categoryBreak = false
+                
+                func deleteDic(dic: [String: [Alert]], arr: [String], key: Dictionary<String, [Alert]>.Keys.Element, alert: Alert, index: Int, editValue: String, ifDate: Bool) -> ([String: [Alert]], [String]) {
+                    print("함수실행")
+                    var dictionary = dic
+                    var array = arr
+//                    print("\(editValue) dic --> \(dictionary)")
+//                    print("\(editValue) arr --> \(array)")
+                    dictionary[key]!.remove(at: index)
+                    
+                    if ifDate == true {
+                        if ((dictionary[key]?.isEmpty) != nil) {
+                            array.removeAll(where: { $0 == key })
+                            dictionary[key] = nil
+                        }
+                    } else {
+                        print("실행")
+                        if ((dictionary[key]?.isEmpty) != nil) {
+                            dictionary[key] = []
+                        }
+                    }
+                    if array.contains(editValue) == false {
+                        array.append(editValue)
+                        dictionary[editValue] = [alert]
+                    } else {
+                        dictionary[editValue]?.append(alert)
+                    }
+                    
+                    print("dictionary --> \(dictionary)")
+                    print("array --> \(array)")
+                    
+                    return (dictionary, array)
+                }
+                
+                for i in 0..<Alert.alerts.count {
+                    if Alert.alerts[i].id == alert.id {
+                        Alert.alerts[i] = alert
+                        break
+                    }
+                }
+                print("date //////////////////////")
+                for i in Alert.dateDictionary.keys { // i에 dateDictionary의 key값 순서대로 대입
+                    for j in 0..<Alert.dateDictionary[i]!.count { // j에 dateDictionary[i] 배열 순서대로 대입
+                        if Alert.dateDictionary[i]![j].id  == alert.id { // j번째 index의 id와 alert의 id 가 같으면
+                           
+                            let a = deleteDic(dic: Alert.dateDictionary, arr: Alert.dateArray, key: i, alert: alert, index: j, editValue: alert.dateFormatter, ifDate: true)
+                            Alert.dateDictionary = a.0
+                            Alert.dateArray = a.1
+                            
+                            dateBreak = true
+                            break
+                        }
+                        if dateBreak == true {
+                            break
+                        }
+                    }
+                }
+                print("dateDic --> \(Alert.dateDictionary)")
+                print("datearr --> \(Alert.dateArray)")
+                print("category  //////////////////////")
+                for i in Alert.categoryDictionary.keys {
+                    for j in 0..<Alert.categoryDictionary[i]!.count {
+                        if Alert.categoryDictionary[i]![j].id == alert.id {
+                            if alert.category != self.naviTitle { // 나중에 바꿔야함
+                                let a = deleteDic(dic: Alert.categoryDictionary, arr: Alert.categoryArray, key: i, alert: alert, index: j, editValue: alert.category, ifDate: false)
+                                
+                                Alert.categoryDictionary = a.0
+                                Alert.categoryArray = a.1
+                            } else {
+                                
+                            }
+                            
+                           
+                            
+                            categoryBreak = true
+                            break
+                        }
+                        if categoryBreak == true {
+                            break
+                        }
+                    }
+                }
+                print("categoryDic --> \(Alert.categoryDictionary)")
+                print("categoryArr --> \(Alert.categoryArray)")
+
+                // [x]objectArray에 값과 다른값으로 변경시 삭제
             }
             
             self.present(editAlertVC, animated: true, completion: nil)
