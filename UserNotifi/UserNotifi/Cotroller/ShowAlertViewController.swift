@@ -62,6 +62,9 @@ class ShowAlertViewController: UIViewController {
                 Alert.dateDictionary[alert.dateFormatter]?.append(alert)
             }
             
+            print("추가후 dateArray --> \(Alert.dateArray)")
+            print("추가후 dateDic --> \(Alert.dateDictionary)")
+            
             if Alert.categoryArray.contains(alert.category) != true {
                 Alert.categoryArray.append(alert.category)
                 Alert.categoryDictionary[alert.category] = [alert]
@@ -130,8 +133,11 @@ extension ShowAlertViewController: UITableViewDelegate {
     // 메모보기
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let memoVC = self.storyboard?.instantiateViewController(identifier: "MemoViewController") as? MemoViewController else { return }
-        memoVC.memo = Alert.alerts[indexPath.row].memo
-        memoVC.naviTitle = Alert.alerts[indexPath.row].title
+        
+        let alert = objectArray[indexPath.section].sectionObject[indexPath.row]
+        
+        memoVC.memo = alert.memo
+        memoVC.naviTitle = alert.title
         
         self.present(memoVC, animated: true, completion: nil)
     }
@@ -139,11 +145,64 @@ extension ShowAlertViewController: UITableViewDelegate {
 }
 
 extension ShowAlertViewController {
+    // Mark: - 셀 오른쪽 스와이프 메뉴
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        // Mark: - 삭제
         let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (ac: UIContextualAction, view: UIView, success: (Bool) -> Void) in
-            print("삭제")
+            
+            let alert = self.objectArray[indexPath.section].sectionObject[indexPath.row]
+            
+            Alert.alerts.removeAll(where: { $0.id == alert.id })
+            
+            print("alert 삭제 후 dataArr --> \(Alert.dateArray)")
+            print("alert 삭제 후 dateDic --> \(Alert.dateDictionary)")
+            
+            for i in 0..<Alert.dateArray.count {
+                print("index --> \(i)")
+                for j in 0..<Alert.dateDictionary[Alert.dateArray[i]]!.count {
+                    if Alert.dateDictionary[Alert.dateArray[i]]![j].id == alert.id {
+                        Alert.dateDictionary[Alert.dateArray[i]]?.remove(at: j)
+                    }
+                    if ((Alert.dateDictionary[Alert.dateArray[i]]?.isEmpty) == true) {
+                        Alert.dateDictionary[Alert.dateArray[i]] = nil
+                        Alert.dateArray.remove(at: i)
+                    }
+                }
+                
+                
+                
+                
+            }
+            print("dateArray --> \(Alert.dateArray), dateDic --> \(Alert.dateDictionary)")
+            
+            for i in 0..<Alert.categoryArray.count {
+                for j in 0..<Alert.categoryDictionary[Alert.categoryArray[i]]!.count {
+                    if Alert.categoryDictionary[Alert.categoryArray[i]]![j].id == alert.id {
+                        Alert.categoryDictionary[Alert.categoryArray[i]]?.remove(at: j)
+                    }
+//                    if ((Alert.categoryDictionary[Alert.categoryArray[i]]?.isEmpty) != nil) {
+//                        Alert.categoryDictionary[Alert.categoryArray[i]] = nil
+//                        Alert.categoryArray.remove(at: i)
+//                    }
+                }
+            }
+            print("categoryArr --> \(Alert.categoryArray), categoryDic --> \(Alert.categoryDictionary)")
+            
+            for i in 0..<self.objectArray.count {
+                for j in 0..<self.objectArray[i].sectionObject.count {
+                    if self.objectArray[i].sectionObject[j].id == alert.id {
+                        self.objectArray[i].sectionObject.remove(at: j)
+                    }
+                    if self.objectArray[i].sectionObject.isEmpty {
+                        self.objectArray.remove(at: i)
+                    }
+                }
+            }
+        
+            self.tableView.reloadData()
             success(true)
         }
+        // Mark: - 즐겨찾기
         let flagAction = UIContextualAction(style: .normal, title: "즐겨찾기") { (ac: UIContextualAction, view: UIView, success: (Bool) -> Void) in
             print("flag")
             success(true)
@@ -153,9 +212,13 @@ extension ShowAlertViewController {
         flagAction.backgroundColor = .systemYellow
         flagAction.image = UIImage(systemName: "star")
         
-        return UISwipeActionsConfiguration(actions: [deleteAction, flagAction])
+        let config = UISwipeActionsConfiguration(actions: [deleteAction, flagAction])
+        config.performsFirstActionWithFullSwipe = false
+        
+        return config
     }
     
+    // Mark: - 셀 왼쪽 스와이프 메뉴
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let editAction = UIContextualAction(style: .normal, title: "수정") { (ac: UIContextualAction, view: UIView, success: (Bool) -> Void) in
             print("수정")
@@ -168,6 +231,13 @@ extension ShowAlertViewController {
             editAlertVC.sendAlertDataClosure = { alert in
                 
                 print("되돌려받은값 --> \(alert)")
+                
+                for i in 0..<Alert.alerts.count {
+                    if Alert.alerts[i].id == alert.id {
+                        Alert.alerts[i] = alert
+                        break
+                    }
+                }
                 
                 func setDataOfObjectArray() {
                     for i in 0..<self.objectArray.count {
@@ -185,16 +255,27 @@ extension ShowAlertViewController {
                             print("sectionObjectIndex --> \(self.objectArray[i].sectionObject)")
                             if self.objectArray[i].sectionObject[j].id == alert.id {
                                 self.objectArray[i].sectionObject.remove(at: j)
-                                break
-                            } else {
-                                continue
+                            }
+                            if self.objectArray[i].sectionObject.isEmpty {
+                                self.objectArray.remove(at: i)
+                            }
+                        }
+                    }
+                    for i in 0..<Alert.dateArray.count {
+                        print("dateArray --> \(Alert.dateArray)")
+                        for j in 0..<Alert.dateDictionary[Alert.dateArray[i]]!.count {
+                            if Alert.dateDictionary[Alert.dateArray[i]]![j].id == alert.id {
+                                Alert.dateDictionary[Alert.dateArray[i]]?.remove(at: j)
+                            }
+                            if ((Alert.dateDictionary[Alert.dateArray[i]]?.isEmpty) == true) {
+                                Alert.dateDictionary[Alert.dateArray[i]] = nil
+                                Alert.dateArray.remove(at: i)
                             }
                         }
                     }
                 }
                 
                 func changeDateOfObjectArray() {
-                    deleteDataOfObjectArray()
                     
                     deleteDataOfObjectArray() // objectArray에 alert이랑 동일한 id를 가진 Alert 삭제
                     
@@ -224,7 +305,22 @@ extension ShowAlertViewController {
                         print("새로 추가됨")
                     }
                     self.objectArray = self.objectArray.sorted { $0.sectionName < $1.sectionName }
-                }
+                    
+                    print("objectArray --> \(self.objectArray)")
+                    
+                    if Alert.dateArray.contains(alert.dateFormatter) == false {
+                        Alert.dateArray.append(alert.dateFormatter)
+                        Alert.dateDictionary[alert.dateFormatter] = [alert]
+                    } else {
+                        Alert.dateDictionary[alert.dateFormatter]?.append(alert)
+                    }
+
+                    print("dateArray ==> \(Alert.dateArray)")
+                    print("dateDic --> \(Alert.dateDictionary)")
+                    
+                    
+                    
+                } // 끝
                 
                 if self.naviTitle == "오늘" {
                     // 오늘 날짜가 아닐시 remove, 오늘 날짜시 반영 -> reload Data
@@ -237,49 +333,18 @@ extension ShowAlertViewController {
                 } else if self.naviTitle == "예정" {
                     // 반영 -> reload Data
                     print("예정")
-                    
-//                    deleteDataOfObjectArray() // objectArray에 alert이랑 동일한 id를 가진 Alert 삭제
-//
-//                    for i in 0..<self.objectArray.count { // objectArray[].sectionObject == isEmpty일때 해당 objectArray의 index 삭제
-//                        if self.objectArray[i].sectionObject.isEmpty {
-//                            self.objectArray.remove(at: i)
-//                            print("삭제됨")
-//                            break
-//                        }
-//                    }
-//                    var a = true
-//                    print(self.objectArray.count)
-//                    for i in 0..<self.objectArray.count {
-//                        print("반복")
-//                        if self.objectArray[i].sectionName == alert.dateFormatter {
-//                            self.objectArray[i].sectionObject.append(alert)
-//                            print("기존값에 추가됨")
-//                            a = true
-//                            break
-//                        } else {
-//                            a = false
-//                        }
-//                    }
-//
-//                    if a == false || self.objectArray.isEmpty {
-//                        self.objectArray.append(Objects(sectionName: alert.dateFormatter, sectionObject: [alert]))
-//                        print("새로 추가됨")
-//                    }
                     changeDateOfObjectArray()
                     self.tableView.reloadData()
                 } else if self.naviTitle == "전체" {
                     // 반영 -> reload Data
-                    setDataOfObjectArray()
+                    changeDateOfObjectArray()
                     self.tableView.reloadData()
                 } else if self.naviTitle == "즐겨찾기" {
                     print("즐겨찾기")
                 } else {
                     // naviTitle과 다를시 remove, 같을시 반영 -> reload Data
                     if self.naviTitle == alert.category {
-//                        setDataOfObjectArray()
-                        
                         changeDateOfObjectArray()
-                        
                     } else {
                         deleteDataOfObjectArray()
                     }
@@ -322,12 +387,6 @@ extension ShowAlertViewController {
                     return (dictionary, array)
                 }
                 
-                for i in 0..<Alert.alerts.count {
-                    if Alert.alerts[i].id == alert.id {
-                        Alert.alerts[i] = alert
-                        break
-                    }
-                }
 //                print("date //////////////////////")
                 for i in Alert.dateDictionary.keys { // i에 dateDictionary의 key값 순서대로 대입
                     for j in 0..<Alert.dateDictionary[i]!.count { // j에 dateDictionary[i] 배열 순서대로 대입
@@ -382,7 +441,6 @@ extension ShowAlertViewController {
     }
     
 }
-
 
 class Cell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
