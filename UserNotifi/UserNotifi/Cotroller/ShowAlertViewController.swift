@@ -147,10 +147,11 @@ extension ShowAlertViewController: UITableViewDelegate {
 extension ShowAlertViewController {
     // Mark: - 셀 오른쪽 스와이프 메뉴
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let alert = self.objectArray[indexPath.section].sectionObject[indexPath.row]
         // Mark: - 삭제
-        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (ac: UIContextualAction, view: UIView, success: (Bool) -> Void) in
+        let deleteAction = UIContextualAction(style: .destructive, title: "") { (ac: UIContextualAction, view: UIView, success: (Bool) -> Void) in
             
-            let alert = self.objectArray[indexPath.section].sectionObject[indexPath.row]
+            
             
             Alert.alerts.removeAll(where: { $0.id == alert.id })
             
@@ -180,10 +181,6 @@ extension ShowAlertViewController {
                     if Alert.categoryDictionary[Alert.categoryArray[i]]![j].id == alert.id {
                         Alert.categoryDictionary[Alert.categoryArray[i]]?.remove(at: j)
                     }
-//                    if ((Alert.categoryDictionary[Alert.categoryArray[i]]?.isEmpty) != nil) {
-//                        Alert.categoryDictionary[Alert.categoryArray[i]] = nil
-//                        Alert.categoryArray.remove(at: i)
-//                    }
                 }
             }
             print("categoryArr --> \(Alert.categoryArray), categoryDic --> \(Alert.categoryDictionary)")
@@ -203,14 +200,43 @@ extension ShowAlertViewController {
             success(true)
         }
         // Mark: - 즐겨찾기
-        let flagAction = UIContextualAction(style: .normal, title: "즐겨찾기") { (ac: UIContextualAction, view: UIView, success: (Bool) -> Void) in
+        let flagAction = UIContextualAction(style: .normal, title: "") { (ac: UIContextualAction, view: UIView, success: (Bool) -> Void) in
             print("flag")
+            
+            for i in 0..<Alert.alerts.count {
+                if alert.id == Alert.alerts[i].id {
+                    Alert.alerts[i].flag = !Alert.alerts[i].flag
+                }
+            }
+            
+            self.objectArray[indexPath.section].sectionObject[indexPath.row].flag = !self.objectArray[indexPath.section].sectionObject[indexPath.row].flag
+            
+            for i in 0..<Alert.dateArray.count {
+                for j in 0..<Alert.dateDictionary[Alert.dateArray[i]]!.count {
+                    if Alert.dateDictionary[Alert.dateArray[i]]![j].id == alert.id {
+                        Alert.dateDictionary[Alert.dateArray[i]]![j].flag = !Alert.dateDictionary[Alert.dateArray[i]]![j].flag
+                    }
+                }
+            }
+            
+            for i in 0..<Alert.categoryArray.count {
+                for j in 0..<Alert.categoryDictionary[Alert.categoryArray[i]]!.count {
+                    if Alert.categoryDictionary[Alert.categoryArray[i]]![j].id == alert.id {
+                        Alert.categoryDictionary[Alert.categoryArray[i]]![j].flag = !Alert.categoryDictionary[Alert.categoryArray[i]]![j].flag
+                    }
+                }
+            }
             success(true)
         }
         
         deleteAction.image = UIImage(systemName: "xmark.circle.fill")
         flagAction.backgroundColor = .systemYellow
-        flagAction.image = UIImage(systemName: "star")
+        
+        if alert.flag == true {
+            flagAction.image = UIImage(systemName: "star.fill")
+        } else {
+            flagAction.image = UIImage(systemName: "star")
+        }
         
         let config = UISwipeActionsConfiguration(actions: [deleteAction, flagAction])
         config.performsFirstActionWithFullSwipe = false
