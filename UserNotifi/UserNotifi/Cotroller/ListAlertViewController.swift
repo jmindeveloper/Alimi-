@@ -43,6 +43,7 @@ class ListAlertViewController: UIViewController {
         
         var count = 0
         var count1 = 0
+        var count2 = 0
 
         for i in Alert.alerts {
             if i.dateFormatter == currentDateFormatter.string(from: Date()) {
@@ -57,17 +58,23 @@ class ListAlertViewController: UIViewController {
             }
         }
 
-        for i in 0...ListAlertViewController.categoryList.count - 1 {
+        for i in 0..<ListAlertViewController.categoryList.count {
             if let _ = Alert.categoryDictionary[ListAlertViewController.categoryList[i].categoryName] {
                 ListAlertViewController.categoryList[i].count = Alert.categoryDictionary[ListAlertViewController.categoryList[i].categoryName]?.count ?? 0
             }
         }
+        
+        for i in Alert.alerts {
+            if i.flag == true {
+                count2 += 1
+            }
+        }
+        
 
         lists[0].count = count
         lists[1].count = count1
-        
-        
         lists[2].count = Alert.alerts.count
+        lists[3].count = count2
         self.collectionView.reloadData()
     }
 
@@ -249,8 +256,33 @@ extension ListAlertViewController: UICollectionViewDelegate {
                 showAlertView.alertDictionary = Alert.dateDictionary
                 showAlertView.naviTitle = "전체"
             } else if indexPath.row == 3 {
+                // Mark: - 즐겨찾기
                 showAlertView.naviTitle = "즐겨찾기"
+                
+                var flagAlertArray = [Alert]()
+                var scheduleDateFlagArray = [String]()
+                var scheduleDateFlagDictionary = [String: [Alert]]()
+                var dateFlagArray = [String]()
+                var dateFlagDictionary = [String: [Alert]]()
+                
+                for i in Alert.alerts {
+                    if i.flag == true {
+                        flagAlertArray.append(i)
+                    }
+                }
+                
+                for i in flagAlertArray {
+                    if dateFlagArray.contains(i.dateFormatter) == false {
+                        dateFlagArray.append(i.dateFormatter)
+                        dateFlagDictionary[i.dateFormatter] = [i]
+                    } else {
+                        dateFlagDictionary[i.dateFormatter]?.append(i)
+                    }
+                }
+                showAlertView.alertDictionary = dateFlagDictionary
             }
+
+            
         } else if indexPath.section == 1 {
             
             var categoryDateDictionary = [String: [Alert]]()
