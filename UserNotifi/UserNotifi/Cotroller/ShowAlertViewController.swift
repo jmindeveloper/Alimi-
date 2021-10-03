@@ -45,6 +45,19 @@ class ShowAlertViewController: UIViewController {
             objectArray.append(Objects(sectionName: key, sectionObject: value))
         }
         objectArray = objectArray.sorted { $0.sectionName < $1.sectionName }
+        
+        for i in 0..<objectArray.count {
+            objectArray[i].sectionObject = objectArray[i].sectionObject.sorted { alert, alert2 in
+                let first = alert.meridiemFormatter + alert.timeFormatter
+                print(first)
+                let second = alert2.meridiemFormatter + alert2.timeFormatter
+                print(second)
+                return first < second
+                
+            }
+        }
+        
+        
     }
     
     @IBAction func addAlertButton(_ sender: Any) {
@@ -153,26 +166,28 @@ extension ShowAlertViewController {
             
             
             
-            Alert.alerts.removeAll(where: { $0.id == alert.id })
+//            Alert.alerts.removeAll(where: { $0.id == alert.id })
             
-            print("alert 삭제 후 dataArr --> \(Alert.dateArray)")
-            print("alert 삭제 후 dateDic --> \(Alert.dateDictionary)")
+            print("dataArr --> \(Alert.dateArray)")
+            print("dateDic --> \(Alert.dateDictionary)")
             
             for i in 0..<Alert.dateArray.count {
                 print("index --> \(i)")
                 for j in 0..<Alert.dateDictionary[Alert.dateArray[i]]!.count {
+                    print("j --> \(j)")
+                    print(alert.id)
+                    print(Alert.dateDictionary[Alert.dateArray[i]]![j].id)
                     if Alert.dateDictionary[Alert.dateArray[i]]![j].id == alert.id {
+                        print("삭제")
                         Alert.dateDictionary[Alert.dateArray[i]]?.remove(at: j)
-                    }
-                    if ((Alert.dateDictionary[Alert.dateArray[i]]?.isEmpty) == true) {
-                        Alert.dateDictionary[Alert.dateArray[i]] = nil
-                        Alert.dateArray.remove(at: i)
+                        print("삭제후 datedic --> \(Alert.dateDictionary)")
+                        if ((Alert.dateDictionary[Alert.dateArray[i]]?.isEmpty) == true) {
+                            Alert.dateDictionary[Alert.dateArray[i]] = nil
+                            Alert.dateArray.remove(at: i)
+                        }
+                        break
                     }
                 }
-                
-                
-                
-                
             }
             print("dateArray --> \(Alert.dateArray), dateDic --> \(Alert.dateDictionary)")
             
@@ -180,6 +195,7 @@ extension ShowAlertViewController {
                 for j in 0..<Alert.categoryDictionary[Alert.categoryArray[i]]!.count {
                     if Alert.categoryDictionary[Alert.categoryArray[i]]![j].id == alert.id {
                         Alert.categoryDictionary[Alert.categoryArray[i]]?.remove(at: j)
+                        break
                     }
                 }
             }
@@ -189,13 +205,15 @@ extension ShowAlertViewController {
                 for j in 0..<self.objectArray[i].sectionObject.count {
                     if self.objectArray[i].sectionObject[j].id == alert.id {
                         self.objectArray[i].sectionObject.remove(at: j)
-                    }
-                    if self.objectArray[i].sectionObject.isEmpty {
-                        self.objectArray.remove(at: i)
-                    }
+                        if self.objectArray[i].sectionObject.isEmpty {
+                            self.objectArray.remove(at: i)
+                        }
+                        break
+                    }   
                 }
             }
-        
+            Alert.alerts.removeAll(where: { $0.id == alert.id })
+            
             self.tableView.reloadData()
             success(true)
         }
@@ -208,8 +226,6 @@ extension ShowAlertViewController {
                     Alert.alerts[i].flag = !Alert.alerts[i].flag
                 }
             }
-            
-            self.objectArray[indexPath.section].sectionObject[indexPath.row].flag = !self.objectArray[indexPath.section].sectionObject[indexPath.row].flag
             
             for i in 0..<Alert.dateArray.count {
                 for j in 0..<Alert.dateDictionary[Alert.dateArray[i]]!.count {
@@ -226,6 +242,18 @@ extension ShowAlertViewController {
                     }
                 }
             }
+            
+            if self.naviTitle == "즐겨찾기" {
+                
+                self.objectArray[indexPath.section].sectionObject.removeAll(where: { $0.id == alert.id})
+                self.objectArray.removeAll(where: { $0.sectionObject == [] })
+                
+                
+                self.tableView.reloadData()
+            } else {
+                self.objectArray[indexPath.section].sectionObject[indexPath.row].flag = !self.objectArray[indexPath.section].sectionObject[indexPath.row].flag
+            }
+            
             success(true)
         }
         
@@ -407,7 +435,7 @@ extension ShowAlertViewController {
                         dictionary[editValue]?.append(alert)
                     }
                     
-//                    print("dictionary --> \(dictionary)")
+                    print("dictionary --> \(dictionary)")
 //                    print("array --> \(array)")
                     
                     return (dictionary, array)
@@ -433,17 +461,22 @@ extension ShowAlertViewController {
 //                print("dateDic --> \(Alert.dateDictionary)")
 //                print("datearr --> \(Alert.dateArray)")
                 print("category  //////////////////////")
+                // Mark: - 확인
                 for i in Alert.categoryDictionary.keys {
                     for j in 0..<Alert.categoryDictionary[i]!.count {
                         if Alert.categoryDictionary[i]![j].id == alert.id {
-                            if alert.category != self.naviTitle { // 나중에 바꿔야함
-                                let a = deleteDic(dic: Alert.categoryDictionary, arr: Alert.categoryArray, key: i, alert: alert, index: j, editValue: alert.category, ifDate: false)
-                                
-                                Alert.categoryDictionary = a.0
-                                Alert.categoryArray = a.1
-                            } else {
-                                
-                            }
+//                            if alert.category != self.naviTitle { // 나중에 바꿔야함
+//                                let a = deleteDic(dic: Alert.categoryDictionary, arr: Alert.categoryArray, key: i, alert: alert, index: j, editValue: alert.category, ifDate: false)
+//                                print("a.0 --> \(a.0)")
+//                                Alert.categoryDictionary = a.0
+//                                Alert.categoryArray = a.1
+//                            } else {
+//
+//                            }
+                            let a = deleteDic(dic: Alert.categoryDictionary, arr: Alert.categoryArray, key: i, alert: alert, index: j, editValue: alert.category, ifDate: false)
+                            print("a.0 --> \(a.0)")
+                            Alert.categoryDictionary = a.0
+                            Alert.categoryArray = a.1
                             categoryBreak = true
                             break
                         }

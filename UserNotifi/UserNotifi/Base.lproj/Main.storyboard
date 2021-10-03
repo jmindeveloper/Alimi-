@@ -123,6 +123,7 @@
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                                    <gestureRecognizers/>
                                                     <constraints>
                                                         <constraint firstItem="RCO-YT-bD6" firstAttribute="top" secondItem="7v2-51-BBP" secondAttribute="top" constant="19.5" id="8gD-AC-nBv"/>
                                                         <constraint firstItem="RCO-YT-bD6" firstAttribute="leading" secondItem="bAe-lX-z9x" secondAttribute="trailing" constant="17" id="9Jb-nB-NIg"/>

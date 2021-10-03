@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListAlertViewController: UIViewController {
+class ListAlertViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -33,6 +33,7 @@ class ListAlertViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
         print("viewWillAppear")
         currentDateFormatter.dateFormat = "yyyy년 MM월 dd일"
         currentMeridiemFormatter.dateFormat = "a"
@@ -70,12 +71,20 @@ class ListAlertViewController: UIViewController {
             }
         }
         
-
         lists[0].count = count
         lists[1].count = count1
         lists[2].count = Alert.alerts.count
         lists[3].count = count2
         self.collectionView.reloadData()
+        
+//        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
+//        longPressGesture.minimumPressDuration = 1
+//        longPressGesture.delaysTouchesBegan = true
+//
+//        collectionView.addGestureRecognizer(longPressGesture)
+        
+    
+    
     }
 
     @IBAction func addCategoryBtn(_ sender: Any) {
@@ -140,6 +149,15 @@ extension ListAlertViewController: UICollectionViewDataSource {
             cell2.layer.masksToBounds = false
             cell2.layer.shadowOffset = CGSize(width: 1, height: 1)
             cell2.layer.shadowColor = UIColor.gray.cgColor
+            
+            let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
+            longPressGesture.minimumPressDuration = 1
+            longPressGesture.delaysTouchesBegan = true
+            cell2.cellView.addGestureRecognizer(longPressGesture)
+            
+            
+            
+            
             
             let img2 = UIImage(systemName: "\(ListAlertViewController.categoryList[indexPath.row].image)")
             
@@ -260,8 +278,6 @@ extension ListAlertViewController: UICollectionViewDelegate {
                 showAlertView.naviTitle = "즐겨찾기"
                 
                 var flagAlertArray = [Alert]()
-                var scheduleDateFlagArray = [String]()
-                var scheduleDateFlagDictionary = [String: [Alert]]()
                 var dateFlagArray = [String]()
                 var dateFlagDictionary = [String: [Alert]]()
                 
@@ -321,6 +337,22 @@ extension ListAlertViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension ListAlertViewController {
+    
+    
+    @objc func handleLongPressGesture(_ sender: UILongPressGestureRecognizer) {
+        
+        let alert = UIAlertController(title: "경고", message: "그룹을 삭제하시겠습니까?", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            print("삭제")
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
 class CollectionViewCellSection1: UICollectionViewCell {
     
     @IBOutlet weak var cellView: UIView!
@@ -337,6 +369,7 @@ class CollectionViewCellSection2: UICollectionViewCell {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var count: UILabel!
+    
     
 }
 

@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Alert: Codable {
+struct Alert: Codable, Equatable {
     
     var id: String = UUID().uuidString
     var category: String

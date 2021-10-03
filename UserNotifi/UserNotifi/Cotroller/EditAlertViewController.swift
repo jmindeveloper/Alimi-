@@ -104,7 +104,7 @@ class EditAlertViewController: UIViewController {
 
         let screenBounds = UIScreen.main.bounds
                 
-        bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = screenBounds.width + 60
+        bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = screenBounds.width + 90
                 
         DatePickerVC.sendDateStringClosure = { date, date2, date3 in
             self.dateString = date
