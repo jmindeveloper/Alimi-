@@ -78,11 +78,20 @@ class ShowAlertViewController: UIViewController {
             print("추가후 dateArray --> \(Alert.dateArray)")
             print("추가후 dateDic --> \(Alert.dateDictionary)")
             
-            if Alert.categoryArray.contains(alert.category) != true {
+            if Alert.categoryArray.contains(alert.category) == false {
                 Alert.categoryArray.append(alert.category)
                 Alert.categoryDictionary[alert.category] = [alert]
             } else {
                 Alert.categoryDictionary[alert.category]?.append(alert)
+            }
+            
+            let a = ListAlertViewController.categorys.contains { (category: Category) -> Bool in
+                return category.categoryName == alert.category
+            }
+            
+            if a == false {
+                ListAlertViewController.categorys.append(Category(categoryName: alert.category, count: 0, image: "list.bullet", imageColor: ".green"))
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(ListAlertViewController.categorys), forKey: "category")
             }
             
             if self.naviTitle == alert.category || self.naviTitle == "전체" || self.naviTitle == "예정" || self.naviTitle == "오늘" && alert.dateFormatter == self.currentDateFormatter.string(from: Date()) {

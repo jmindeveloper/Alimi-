@@ -27,6 +27,18 @@ class ListAlertViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         Alert.alerts = ListAlertViewController.alertList()
+        ListAlertViewController.categorys = ListAlertViewController.categoryList()
+        
+        if ListAlertViewController.categorys.isEmpty {
+            ListAlertViewController.categorys.append(Category(categoryName: "미리알림", count: 0, image: "list.bullet", imageColor: ".green"))
+        }
+        
+        for i in ListAlertViewController.categorys {
+            if Alert.categoryArray.contains(i.categoryName) == false {
+                Alert.categoryArray.append(i.categoryName)
+                Alert.categoryDictionary[i.categoryName] = []
+            }
+        }
         
         
         for i in Alert.alerts {
@@ -44,9 +56,6 @@ class ListAlertViewController: UIViewController, UIGestureRecognizerDelegate {
             }
             
         }
-        
-        ListAlertViewController.categorys = ListAlertViewController.categoryList()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -359,7 +368,7 @@ extension ListAlertViewController: UICollectionViewDelegateFlowLayout {
 extension ListAlertViewController {
     
     
-    @objc func handleLongPressGesture(_ sender: UILongPressGestureRecognizer) {
+    @objc func handleLongPressGesture(_ sender: UIView) {
         
         let alert = UIAlertController(title: "경고", message: "그룹을 삭제하시겠습니까?", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
