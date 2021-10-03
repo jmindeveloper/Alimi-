@@ -53,11 +53,8 @@ class ShowAlertViewController: UIViewController {
                 let second = alert2.meridiemFormatter + alert2.timeFormatter
                 print(second)
                 return first < second
-                
             }
         }
-        
-        
     }
     
     @IBAction func addAlertButton(_ sender: Any) {
@@ -67,6 +64,9 @@ class ShowAlertViewController: UIViewController {
         
         addAlertVC.sendAlertDataClosure = { alert in
             Alert.alerts.append(alert)
+            
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(Alert.alerts), forKey: "alerts")
+            
             
             if Alert.dateArray.contains(alert.dateFormatter) != true {
                 Alert.dateArray.append(alert.dateFormatter)
@@ -209,10 +209,12 @@ extension ShowAlertViewController {
                             self.objectArray.remove(at: i)
                         }
                         break
-                    }   
+                    }
                 }
             }
             Alert.alerts.removeAll(where: { $0.id == alert.id })
+            
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(Alert.alerts), forKey: "alerts")
             
             self.tableView.reloadData()
             success(true)
@@ -253,6 +255,8 @@ extension ShowAlertViewController {
             } else {
                 self.objectArray[indexPath.section].sectionObject[indexPath.row].flag = !self.objectArray[indexPath.section].sectionObject[indexPath.row].flag
             }
+            
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(Alert.alerts), forKey: "alerts")
             
             success(true)
         }
@@ -309,9 +313,10 @@ extension ShowAlertViewController {
                             print("sectionObjectIndex --> \(self.objectArray[i].sectionObject)")
                             if self.objectArray[i].sectionObject[j].id == alert.id {
                                 self.objectArray[i].sectionObject.remove(at: j)
-                            }
-                            if self.objectArray[i].sectionObject.isEmpty {
-                                self.objectArray.remove(at: i)
+                                if self.objectArray[i].sectionObject.isEmpty {
+                                    self.objectArray.remove(at: i)
+                                }
+                                break
                             }
                         }
                     }
@@ -491,7 +496,7 @@ extension ShowAlertViewController {
             
             self.present(editAlertVC, animated: true, completion: nil)
             
-            
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(Alert.alerts), forKey: "alerts")
             
             success(true)
         }

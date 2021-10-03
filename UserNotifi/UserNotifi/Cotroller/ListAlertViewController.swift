@@ -22,12 +22,30 @@ class ListAlertViewController: UIViewController, UIGestureRecognizerDelegate {
     CellList(date: "즐겨찾기", count: 0, image: "star.fill")
     ]
     
-    static var categoryList: [Category] = [
-        Category(categoryName: "미리알림", count: 0, image: "list.bullet", imageColor: ".green")
-    ]
+    static var categorys = [Category]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Alert.alerts = ListAlertViewController.alertList()
+        
+        
+        for i in Alert.alerts {
+            if Alert.dateArray.contains(i.dateFormatter) == false {
+                Alert.dateArray.append(i.dateFormatter)
+                Alert.dateDictionary[i.dateFormatter] = [i]
+            } else {
+                Alert.dateDictionary[i.dateFormatter]?.append(i)
+            }
+            if Alert.categoryArray.contains(i.category) == false {
+                Alert.categoryArray.append(i.category)
+                Alert.categoryDictionary[i.category] = [i]
+            } else {
+                Alert.categoryDictionary[i.category]?.append(i)
+            }
+            
+        }
+        
+        ListAlertViewController.categorys = ListAlertViewController.categoryList()
         
     }
     
@@ -59,9 +77,9 @@ class ListAlertViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
 
-        for i in 0..<ListAlertViewController.categoryList.count {
-            if let _ = Alert.categoryDictionary[ListAlertViewController.categoryList[i].categoryName] {
-                ListAlertViewController.categoryList[i].count = Alert.categoryDictionary[ListAlertViewController.categoryList[i].categoryName]?.count ?? 0
+        for i in 0..<ListAlertViewController.categorys.count {
+            if let _ = Alert.categoryDictionary[ListAlertViewController.categorys[i].categoryName] {
+                ListAlertViewController.categorys[i].count = Alert.categoryDictionary[ListAlertViewController.categorys[i].categoryName]?.count ?? 0
             }
         }
         
@@ -76,27 +94,32 @@ class ListAlertViewController: UIViewController, UIGestureRecognizerDelegate {
         lists[2].count = Alert.alerts.count
         lists[3].count = count2
         self.collectionView.reloadData()
-        
-//        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
-//        longPressGesture.minimumPressDuration = 1
-//        longPressGesture.delaysTouchesBegan = true
-//
-//        collectionView.addGestureRecognizer(longPressGesture)
-        
-    
-    
     }
-
+    
+    static func alertList() -> [Alert] {
+        guard let data = UserDefaults.standard.value(forKey: "alerts") as? Data,
+              let alerts = try? PropertyListDecoder().decode([Alert].self, from: data) else { return [] }
+        return alerts
+    }
+    
+    static func categoryList() -> [Category] {
+        guard let data = UserDefaults.standard.value(forKey: "category") as? Data,
+              let categorys = try? PropertyListDecoder().decode([Category].self, from: data) else { return [] }
+        return categorys
+    }
+    
     @IBAction func addCategoryBtn(_ sender: Any) {
         
         let alert = UIAlertController(title: "새로운 카테고리", message: nil, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let okAction = UIAlertAction(title: "저장", style: .default) { _ in
             if alert.textFields![0].text != "" {
-                ListAlertViewController.categoryList.append(Category(categoryName: alert.textFields![0].text!, count: 0, image: "list.bullet", imageColor: ".green"))
+                ListAlertViewController.categorys.append(Category(categoryName: alert.textFields![0].text!, count: 0, image: "list.bullet", imageColor: ".green"))
                 Alert.categoryArray.append(alert.textFields![0].text!)
                 Alert.categoryDictionary[alert.textFields![0].text!] = []
-
+                
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(ListAlertViewController.categorys), forKey: "category")
+                
                 self.collectionView.reloadData()
             }
         }
@@ -119,7 +142,7 @@ extension ListAlertViewController: UICollectionViewDataSource {
         if section == 0 {
             return lists.count
         } else {
-            return ListAlertViewController.categoryList.count
+            return ListAlertViewController.categorys.count
         }
     }
     
@@ -155,15 +178,11 @@ extension ListAlertViewController: UICollectionViewDataSource {
             longPressGesture.delaysTouchesBegan = true
             cell2.cellView.addGestureRecognizer(longPressGesture)
             
-            
-            
-            
-            
-            let img2 = UIImage(systemName: "\(ListAlertViewController.categoryList[indexPath.row].image)")
+            let img2 = UIImage(systemName: "\(ListAlertViewController.categorys[indexPath.row].image)")
             
             cell2.image.image = img2
-            cell2.label.text = ListAlertViewController.categoryList[indexPath.row].categoryName
-            cell2.count.text = String(ListAlertViewController.categoryList[indexPath.row].count)
+            cell2.label.text = ListAlertViewController.categorys[indexPath.row].categoryName
+            cell2.count.text = String(ListAlertViewController.categorys[indexPath.row].count)
         default:
             break
         }
@@ -313,7 +332,7 @@ extension ListAlertViewController: UICollectionViewDelegate {
                 }
             }
             showAlertView.alertDictionary = categoryDateDictionary
-            showAlertView.naviTitle = ListAlertViewController.categoryList[indexPath.row].categoryName
+            showAlertView.naviTitle = ListAlertViewController.categorys[indexPath.row].categoryName
         }
         self.navigationController?.pushViewController(showAlertView, animated: true)
     }
