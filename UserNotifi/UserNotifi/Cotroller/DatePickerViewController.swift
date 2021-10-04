@@ -9,7 +9,7 @@ import UIKit
 
 class DatePickerViewController: UIViewController {
     
-    var sendDateStringClosure: ((String, String, String) -> Void)?
+    var sendDateStringClosure: ((String, String, String, Date) -> Void)?
     
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var doneButton: UIButton!
@@ -35,7 +35,7 @@ class DatePickerViewController: UIViewController {
         timeFormatter3.locale = Locale(identifier: "ko")
         
         if let sendDateStringClosure = sendDateStringClosure {
-            sendDateStringClosure(timeFormatter.string(from: datePicker.date), timeFormatter2.string(from: datePicker.date), timeFormatter3.string(from: datePicker.date))
+            sendDateStringClosure(timeFormatter.string(from: datePicker.date), timeFormatter2.string(from: datePicker.date), timeFormatter3.string(from: datePicker.date), datePicker.date)
         }
         
         self.dismiss(animated: true, completion: nil)

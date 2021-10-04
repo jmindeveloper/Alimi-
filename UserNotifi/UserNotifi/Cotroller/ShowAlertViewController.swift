@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class ShowAlertViewController: UIViewController {
     
@@ -27,6 +28,7 @@ class ShowAlertViewController: UIViewController {
     var naviTitle = ""
     var currentDateFormatter = DateFormatter()
     var objectArray = [Objects]()
+    let userNotificationCenter = UNUserNotificationCenter.current()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +68,7 @@ class ShowAlertViewController: UIViewController {
             Alert.alerts.append(alert)
             
             UserDefaults.standard.set(try? PropertyListEncoder().encode(Alert.alerts), forKey: "alerts")
+            self.userNotificationCenter.addNotificationRequest(by: alert)
             
             
             if Alert.dateArray.contains(alert.dateFormatter) != true {
@@ -173,23 +176,12 @@ extension ShowAlertViewController {
         // Mark: - 삭제
         let deleteAction = UIContextualAction(style: .destructive, title: "") { (ac: UIContextualAction, view: UIView, success: (Bool) -> Void) in
             
-            
-            
-//            Alert.alerts.removeAll(where: { $0.id == alert.id })
-            
-            print("dataArr --> \(Alert.dateArray)")
-            print("dateDic --> \(Alert.dateDictionary)")
-            
             for i in 0..<Alert.dateArray.count {
-                print("index --> \(i)")
                 for j in 0..<Alert.dateDictionary[Alert.dateArray[i]]!.count {
-                    print("j --> \(j)")
                     print(alert.id)
                     print(Alert.dateDictionary[Alert.dateArray[i]]![j].id)
                     if Alert.dateDictionary[Alert.dateArray[i]]![j].id == alert.id {
-                        print("삭제")
                         Alert.dateDictionary[Alert.dateArray[i]]?.remove(at: j)
-                        print("삭제후 datedic --> \(Alert.dateDictionary)")
                         if ((Alert.dateDictionary[Alert.dateArray[i]]?.isEmpty) == true) {
                             Alert.dateDictionary[Alert.dateArray[i]] = nil
                             Alert.dateArray.remove(at: i)
@@ -198,7 +190,6 @@ extension ShowAlertViewController {
                     }
                 }
             }
-            print("dateArray --> \(Alert.dateArray), dateDic --> \(Alert.dateDictionary)")
             
             for i in 0..<Alert.categoryArray.count {
                 for j in 0..<Alert.categoryDictionary[Alert.categoryArray[i]]!.count {
@@ -224,7 +215,7 @@ extension ShowAlertViewController {
             Alert.alerts.removeAll(where: { $0.id == alert.id })
             
             UserDefaults.standard.set(try? PropertyListEncoder().encode(Alert.alerts), forKey: "alerts")
-            
+            self.userNotificationCenter.removePendingNotificationRequests(withIdentifiers: [alert.id])
             self.tableView.reloadData()
             success(true)
         }
@@ -297,7 +288,12 @@ extension ShowAlertViewController {
             
             editAlertVC.sendAlertDataClosure = { alert in
                 
-                print("되돌려받은값 --> \(alert)")
+                self.userNotificationCenter.removePendingNotificationRequests(withIdentifiers: [alert.id])
+                self.userNotificationCenter.addNotificationRequest(by: alert)
+                
+                print(self.userNotificationCenter.getPendingNotificationRequests(completionHandler: { request in
+                    print(request)
+                }))
                 
                 for i in 0..<Alert.alerts.count {
                     if Alert.alerts[i].id == alert.id {
@@ -472,21 +468,11 @@ extension ShowAlertViewController {
                         }
                     }
                 }
-//                print("dateDic --> \(Alert.dateDictionary)")
-//                print("datearr --> \(Alert.dateArray)")
-                print("category  //////////////////////")
+
                 // Mark: - 확인
                 for i in Alert.categoryDictionary.keys {
                     for j in 0..<Alert.categoryDictionary[i]!.count {
                         if Alert.categoryDictionary[i]![j].id == alert.id {
-//                            if alert.category != self.naviTitle { // 나중에 바꿔야함
-//                                let a = deleteDic(dic: Alert.categoryDictionary, arr: Alert.categoryArray, key: i, alert: alert, index: j, editValue: alert.category, ifDate: false)
-//                                print("a.0 --> \(a.0)")
-//                                Alert.categoryDictionary = a.0
-//                                Alert.categoryArray = a.1
-//                            } else {
-//
-//                            }
                             let a = deleteDic(dic: Alert.categoryDictionary, arr: Alert.categoryArray, key: i, alert: alert, index: j, editValue: alert.category, ifDate: false)
                             print("a.0 --> \(a.0)")
                             Alert.categoryDictionary = a.0
@@ -499,14 +485,10 @@ extension ShowAlertViewController {
                         }
                     }
                 }
-                print("categoryDic --> \(Alert.categoryDictionary)")
-                print("categoryArr --> \(Alert.categoryArray)")
             }
             
             self.present(editAlertVC, animated: true, completion: nil)
-            
             UserDefaults.standard.set(try? PropertyListEncoder().encode(Alert.alerts), forKey: "alerts")
-            
             success(true)
         }
         editAction.image = UIImage(systemName: "info.circle")

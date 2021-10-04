@@ -19,6 +19,7 @@ class AddAlertViewController: UIViewController {
     var dateString2 = ""
     var dateString3 = ""
     var categoryName = ""
+    var datePickerDate = Date()
     
     @IBOutlet weak var groupView: UIView!
     @IBOutlet weak var repeatView: UIView!
@@ -108,10 +109,11 @@ class AddAlertViewController: UIViewController {
         
         bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = screenBounds.width + 90
         
-        DatePickerVC.sendDateStringClosure = { date, date2, date3 in
+        DatePickerVC.sendDateStringClosure = { date, date2, date3, datePickerDate in
             self.dateString = date
             self.dateString2 = date2
             self.dateString3 = date3
+            self.datePickerDate = datePickerDate
             self.dateLabel.text = ("\(self.dateString) \(self.dateString3) \(self.dateString2)")
         }
         
@@ -160,9 +162,9 @@ class AddAlertViewController: UIViewController {
             if let sendAlertDataClosure = sendAlertDataClosure {
                 
                 if repeatLabel.text == "안함" {
-                    sendAlertDataClosure(Alert(category: categoryLabel.text!, date: Date(), repeatNoti: false, repeatCycle: Date(), repeatCycleFormatter: "", dateFormatter: dateString, timeFormatter: dateString2, meridiemFormatter: dateString3, title: textField.text!, memo: textView.text, flag: false, isOn: true))
+                    sendAlertDataClosure(Alert(category: categoryLabel.text!, date: datePickerDate, repeatNoti: false, repeatCycle: Date(), repeatCycleFormatter: "", dateFormatter: dateString, timeFormatter: dateString2, meridiemFormatter: dateString3, title: textField.text!, memo: textView.text, flag: false, isOn: true))
                 } else {
-                    sendAlertDataClosure(Alert(category: categoryLabel.text!, date: Date(), repeatNoti: true, repeatCycle: Date(), repeatCycleFormatter: repeatLabel.text!, dateFormatter: dateString, timeFormatter: dateString2, meridiemFormatter: dateString3, title: textField.text!, memo: textView.text, flag: false, isOn: true))
+                    sendAlertDataClosure(Alert(category: categoryLabel.text!, date: datePickerDate, repeatNoti: true, repeatCycle: Date(), repeatCycleFormatter: repeatLabel.text!, dateFormatter: dateString, timeFormatter: dateString2, meridiemFormatter: dateString3, title: textField.text!, memo: textView.text, flag: false, isOn: true))
                 }
             }
             

@@ -16,6 +16,7 @@ class EditAlertViewController: UIViewController {
     var dateString = ""
     var dateString2 = ""
     var dateString3 = ""
+    var datePickerDate = Date()
     var categoryName = ""
     var alert: Alert!
     var sendAlertDataClosure: ((Alert) -> Void)?
@@ -106,10 +107,12 @@ class EditAlertViewController: UIViewController {
                 
         bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = screenBounds.width + 90
                 
-        DatePickerVC.sendDateStringClosure = { date, date2, date3 in
+        DatePickerVC.sendDateStringClosure = { date, date2, date3, datePickerDate in
             self.dateString = date
             self.dateString2 = date2
             self.dateString3 = date3
+            self.datePickerDate = datePickerDate
+            
             self.dateLabel.text = ("\(self.dateString) \(self.dateString3) \(self.dateString2)")
             self.changeDate = true
         }
@@ -157,6 +160,7 @@ class EditAlertViewController: UIViewController {
                     alert.dateFormatter = self.dateString
                     alert.timeFormatter = self.dateString2
                     alert.meridiemFormatter = self.dateString3
+                    alert.date = datePickerDate
                 }
                 alert.memo = self.textView.text
                 alert.title = self.textField.text ?? ""
