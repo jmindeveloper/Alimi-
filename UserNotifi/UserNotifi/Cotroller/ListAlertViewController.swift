@@ -28,34 +28,34 @@ class ListAlertViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         Alert.alerts = ListAlertViewController.alertList()
         ListAlertViewController.categorys = ListAlertViewController.categoryList()
+        reloadArray()
         
         if ListAlertViewController.categorys.isEmpty {
             ListAlertViewController.categorys.append(Category(categoryName: "미리알림", count: 0, image: "list.bullet", imageColor: ".green"))
         }
         
-        for i in ListAlertViewController.categorys {
-            if Alert.categoryArray.contains(i.categoryName) == false {
-                Alert.categoryArray.append(i.categoryName)
-                Alert.categoryDictionary[i.categoryName] = []
-            }
-        }
+//        for i in ListAlertViewController.categorys {
+//            if Alert.categoryArray.contains(i.categoryName) == false {
+//                Alert.categoryArray.append(i.categoryName)
+//                Alert.categoryDictionary[i.categoryName] = []
+//            }
+//        }
         
         
-        for i in Alert.alerts {
-            if Alert.dateArray.contains(i.dateFormatter) == false {
-                Alert.dateArray.append(i.dateFormatter)
-                Alert.dateDictionary[i.dateFormatter] = [i]
-            } else {
-                Alert.dateDictionary[i.dateFormatter]?.append(i)
-            }
-            if Alert.categoryArray.contains(i.category) == false {
-                Alert.categoryArray.append(i.category)
-                Alert.categoryDictionary[i.category] = [i]
-            } else {
-                Alert.categoryDictionary[i.category]?.append(i)
-            }
-            
-        }
+//        for i in Alert.alerts {
+//            if Alert.dateArray.contains(i.dateFormatter) == false {
+//                Alert.dateArray.append(i.dateFormatter)
+//                Alert.dateDictionary[i.dateFormatter] = [i]
+//            } else {
+//                Alert.dateDictionary[i.dateFormatter]?.append(i)
+//            }
+//            if Alert.categoryArray.contains(i.category) == false {
+//                Alert.categoryArray.append(i.category)
+//                Alert.categoryDictionary[i.category] = [i]
+//            } else {
+//                Alert.categoryDictionary[i.category]?.append(i)
+//            }
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,6 +117,34 @@ class ListAlertViewController: UIViewController, UIGestureRecognizerDelegate {
         return categorys
     }
     
+    func reloadArray() {
+        
+        for i in ListAlertViewController.categorys {
+            if Alert.categoryArray.contains(i.categoryName) == false {
+                Alert.categoryArray.append(i.categoryName)
+                Alert.categoryDictionary[i.categoryName] = []
+            }
+        }
+        
+        for i in Alert.alerts {
+            if Alert.dateArray.contains(i.dateFormatter) == false {
+                Alert.dateArray.append(i.dateFormatter)
+                Alert.dateDictionary[i.dateFormatter] = [i]
+            } else {
+                Alert.dateDictionary[i.dateFormatter]?.append(i)
+            }
+            if Alert.categoryArray.contains(i.category) == false {
+                Alert.categoryArray.append(i.category)
+                Alert.categoryDictionary[i.category] = [i]
+            } else {
+                Alert.categoryDictionary[i.category]?.append(i)
+            }
+        }
+        print("reloadArray 후 categoryDic --> \(Alert.categoryDictionary)")
+        print("reloadArray 후 categoryArray --> \(Alert.categoryArray)")
+        print("reloadArray 후 alerts --> \(Alert.alerts)")
+    }
+    
     @IBAction func addCategoryBtn(_ sender: Any) {
         
         let alert = UIAlertController(title: "새로운 카테고리", message: nil, preferredStyle: .alert)
@@ -136,8 +164,8 @@ class ListAlertViewController: UIViewController, UIGestureRecognizerDelegate {
         alert.addTextField { textField in
             textField.placeholder = "카테고리 이름"
         }
-        alert.addAction(cancelAction)
         alert.addAction(okAction)
+        alert.addAction(cancelAction)
 
         self.present(alert, animated: true, completion: nil)
 
@@ -368,14 +396,90 @@ extension ListAlertViewController: UICollectionViewDelegateFlowLayout {
 extension ListAlertViewController {
     
     
-    @objc func handleLongPressGesture(_ sender: UIView) {
+    @objc func handleLongPressGesture(_ sender: UILongPressGestureRecognizer) {
         
-        let alert = UIAlertController(title: "경고", message: "그룹을 삭제하시겠습니까?", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+        let locationView = sender.location(in: collectionView)
+        let indexPath = collectionView.indexPathForItem(at: locationView)!
+        
+        print(indexPath.row)
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: "그룹삭제", style: .default) { _ in
             print("삭제")
+            
+            let deleteAlert = UIAlertController(title: "그룹삭제", message: "그룹을 삭제하시겠습니까?", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+                print("삭제")
+                if indexPath.row == 0 {
+                    let alert = UIAlertController(title: nil, message: "기본 그룹은 삭제할수 없습니다", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+                    alert.addAction(okAction)
+                    self.present(alert, animated: true, completion: nil)
+                } else {
+                    for i in 0..<ListAlertViewController.categorys.count {
+                        if ListAlertViewController.categorys[i].categoryName == ListAlertViewController.categorys[indexPath.row].categoryName {
+                            ListAlertViewController.categorys.remove(at: indexPath.row)
+                            self.collectionView.reloadData()
+                        }
+                    }
+                } // 삭제한 그룹의 알림들 미리알림으로 옮기기
+                
+                
+            }
+            let cancelDeleteAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+            deleteAlert.addAction(okAction)
+            deleteAlert.addAction(cancelDeleteAction)
+            self.present(deleteAlert, animated: true, completion: nil)
+        }
+        let changeGroupNameAction = UIAlertAction(title: "그룹이름변경", style: .default) { _ in
+            print("이름변경")
+            
+            if indexPath.row == 0 {
+                let alert = UIAlertController(title: nil, message: "기본 그룹의 이름은 변경할 수 없습니다", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+                alert.addAction(okAction)
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                let changeNameAlert = UIAlertController(title: "그룹이름변경", message: nil, preferredStyle: .alert)
+                let changeNameOkAction = UIAlertAction(title: "완료", style: .default) { _ in
+                    print("변경완료")
+                    
+                    if changeNameAlert.textFields![0].text != "" {
+                        
+                        for i in 0..<Alert.alerts.count {
+                            if Alert.alerts[i].category == ListAlertViewController.categorys[indexPath.row].categoryName {
+                                Alert.alerts[i].category = changeNameAlert.textFields![0].text!
+                            }
+                        }
+                        
+                        ListAlertViewController.categorys[indexPath.row].categoryName = changeNameAlert.textFields![0].text!
+                        
+                        Alert.categoryArray = []
+                        Alert.categoryDictionary = [:]
+                        Alert.dateDictionary = [:]
+                        Alert.dateArray = []
+                        self.reloadArray()
+                        
+                        
+                        
+                        UserDefaults.standard.set(try? PropertyListEncoder().encode(ListAlertViewController.categorys), forKey: "category")
+                        UserDefaults.standard.set(try? PropertyListEncoder().encode(Alert.alerts), forKey: "alerts")
+                        
+                        self.collectionView.reloadData()
+                    }
+                }
+                let changeNameCancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+                changeNameAlert.addTextField { textField in
+                    textField.placeholder = ListAlertViewController.categorys[indexPath.row].categoryName
+                }
+                changeNameAlert.addAction(changeNameOkAction)
+                changeNameAlert.addAction(changeNameCancelAction)
+                self.present(changeNameAlert, animated: true, completion: nil)
+            }
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        alert.addAction(okAction)
+        alert.addAction(deleteAction)
+        alert.addAction(changeGroupNameAction)
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
     }
