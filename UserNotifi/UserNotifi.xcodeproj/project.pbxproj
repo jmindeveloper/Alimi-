@@ -13,6 +13,7 @@
 		0E1FC13926EC999B00A48358 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1FC13826EC999B00A48358 /* Alert.swift */; };
 		0E1FC13B26ECAFF900A48358 /* AddAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1FC13A26ECAFF900A48358 /* AddAlertViewController.swift */; };
 		0E1FC13D26ECB69000A48358 /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1FC13C26ECB69000A48358 /* MemoViewController.swift */; };
+		0E2A185E270AC99C00FE0C55 /* UNNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2A185D270AC99C00FE0C55 /* UNNotificationCenter.swift */; };
 		0E546E2526ED9E4F00189E7D /* DatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E546E2426ED9E4F00189E7D /* DatePickerViewController.swift */; };
 		0E546E2726EDF47700189E7D /* RepeatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E546E2626EDF47700189E7D /* RepeatViewController.swift */; };
 		0E918AD326E323C3006FD827 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E918AD226E323C3006FD827 /* AppDelegate.swift */; };
@@ -32,6 +33,7 @@
 		0E1FC13826EC999B00A48358 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		0E1FC13A26ECAFF900A48358 /* AddAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlertViewController.swift; sourceTree = "<group>"; };
 		0E1FC13C26ECB69000A48358 /* MemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewController.swift; sourceTree = "<group>"; };
+		0E2A185D270AC99C00FE0C55 /* UNNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNNotificationCenter.swift; sourceTree = "<group>"; };
 		0E546E2426ED9E4F00189E7D /* DatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerViewController.swift; sourceTree = "<group>"; };
 		0E546E2626EDF47700189E7D /* RepeatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatViewController.swift; sourceTree = "<group>"; };
 		0E918ACF26E323C3006FD827 /* UserNotifi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserNotifi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,7 @@
 			children = (
 				0E1967B126EB37CA0004F7D8 /* CellList.swift */,
 				0E1FC13826EC999B00A48358 /* Alert.swift */,
+				0E2A185D270AC99C00FE0C55 /* UNNotificationCenter.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				0E1967AD26EB28D50004F7D8 /* ListAlertViewController.swift in Sources */,
 				0E546E2526ED9E4F00189E7D /* DatePickerViewController.swift in Sources */,
 				0E1FC13926EC999B00A48358 /* Alert.swift in Sources */,
+				0E2A185E270AC99C00FE0C55 /* UNNotificationCenter.swift in Sources */,
 				0E546E2726EDF47700189E7D /* RepeatViewController.swift in Sources */,
 				0E1FC13B26ECAFF900A48358 /* AddAlertViewController.swift in Sources */,
 				0E1FC13D26ECB69000A48358 /* MemoViewController.swift in Sources */,
