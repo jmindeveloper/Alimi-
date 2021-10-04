@@ -33,29 +33,6 @@ class ListAlertViewController: UIViewController, UIGestureRecognizerDelegate {
         if ListAlertViewController.categorys.isEmpty {
             ListAlertViewController.categorys.append(Category(categoryName: "미리알림", count: 0, image: "list.bullet", imageColor: ".green"))
         }
-        
-//        for i in ListAlertViewController.categorys {
-//            if Alert.categoryArray.contains(i.categoryName) == false {
-//                Alert.categoryArray.append(i.categoryName)
-//                Alert.categoryDictionary[i.categoryName] = []
-//            }
-//        }
-        
-        
-//        for i in Alert.alerts {
-//            if Alert.dateArray.contains(i.dateFormatter) == false {
-//                Alert.dateArray.append(i.dateFormatter)
-//                Alert.dateDictionary[i.dateFormatter] = [i]
-//            } else {
-//                Alert.dateDictionary[i.dateFormatter]?.append(i)
-//            }
-//            if Alert.categoryArray.contains(i.category) == false {
-//                Alert.categoryArray.append(i.category)
-//                Alert.categoryDictionary[i.category] = [i]
-//            } else {
-//                Alert.categoryDictionary[i.category]?.append(i)
-//            }
-//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -416,15 +393,34 @@ extension ListAlertViewController {
                     alert.addAction(okAction)
                     self.present(alert, animated: true, completion: nil)
                 } else {
+                    var count = 0
+                    for i in 0..<Alert.alerts.count {
+                        if Alert.alerts[i].category == ListAlertViewController.categorys[indexPath.row].categoryName {
+                            Alert.alerts[i].category = "미리알림"
+                            count += 1
+                        }
+                    }
+                    
+                    ListAlertViewController.categorys[0].count += count
+                    
                     for i in 0..<ListAlertViewController.categorys.count {
                         if ListAlertViewController.categorys[i].categoryName == ListAlertViewController.categorys[indexPath.row].categoryName {
                             ListAlertViewController.categorys.remove(at: indexPath.row)
                             self.collectionView.reloadData()
+                            break
                         }
                     }
-                } // 삭제한 그룹의 알림들 미리알림으로 옮기기
-                
-                
+                    
+                    Alert.categoryArray = []
+                    Alert.categoryDictionary = [:]
+                    Alert.dateDictionary = [:]
+                    Alert.dateArray = []
+                    self.reloadArray()
+                    
+                    UserDefaults.standard.set(try? PropertyListEncoder().encode(ListAlertViewController.categorys), forKey: "category")
+                    UserDefaults.standard.set(try? PropertyListEncoder().encode(Alert.alerts), forKey: "alerts")
+                    
+                }
             }
             let cancelDeleteAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
             deleteAlert.addAction(okAction)
@@ -459,8 +455,6 @@ extension ListAlertViewController {
                         Alert.dateDictionary = [:]
                         Alert.dateArray = []
                         self.reloadArray()
-                        
-                        
                         
                         UserDefaults.standard.set(try? PropertyListEncoder().encode(ListAlertViewController.categorys), forKey: "category")
                         UserDefaults.standard.set(try? PropertyListEncoder().encode(Alert.alerts), forKey: "alerts")
