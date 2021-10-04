@@ -59,6 +59,43 @@ class ShowAlertViewController: UIViewController {
         }
     }
     
+    @objc func onOffSwitchAction(_ sender: UISwitch) {
+        let point = sender.convert(CGPoint.zero, to: tableView)
+        guard let indexPath = tableView.indexPathForRow(at: point) else { return }
+        
+        var alert = objectArray[indexPath.section].sectionObject[indexPath.row]
+        alert.isOn = !alert.isOn
+        for i in 0..<Alert.alerts.count {
+            if Alert.alerts[i].id == alert.id {
+                Alert.alerts[i] = alert
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(Alert.alerts), forKey: "alerts")
+                break
+            }
+        }
+        
+        for i in 0..<Alert.dateArray.count {
+            for j in 0..<Alert.dateDictionary[Alert.dateArray[i]]!.count {
+                if Alert.dateDictionary[Alert.dateArray[i]]![j].id == alert.id {
+                    Alert.dateDictionary[Alert.dateArray[i]]![j] = alert
+                }
+            }
+        }
+        
+        for i in 0..<Alert.categoryArray.count {
+            for j in 0..<Alert.categoryDictionary[Alert.categoryArray[i]]!.count {
+                if Alert.categoryDictionary[Alert.categoryArray[i]]![j].id == alert.id {
+                    Alert.categoryDictionary[Alert.categoryArray[i]]![j] = alert
+                }
+            }
+        }
+        
+        if alert.isOn == false {
+            userNotificationCenter.removePendingNotificationRequests(withIdentifiers: [alert.id])
+        } else {
+            userNotificationCenter.addNotificationRequest(by: alert)
+        }
+    }
+    
     @IBAction func addAlertButton(_ sender: Any) {
         guard let addAlertVC = self.storyboard?.instantiateViewController(identifier: "AddAlertViewController") as? AddAlertViewController else { return }
         
@@ -142,6 +179,8 @@ extension ShowAlertViewController: UITableViewDataSource {
         } else {
             cell.repeatLabel.isHidden = true
         }
+        cell.onOffSwitch.isOn = alert.isOn
+        cell.onOffSwitch.addTarget(self, action: #selector(onOffSwitchAction(_:)), for: .valueChanged)
 
         return cell
         
@@ -199,7 +238,6 @@ extension ShowAlertViewController {
                     }
                 }
             }
-            print("categoryArr --> \(Alert.categoryArray), categoryDic --> \(Alert.categoryDictionary)")
             
             for i in 0..<self.objectArray.count {
                 for j in 0..<self.objectArray[i].sectionObject.count {
